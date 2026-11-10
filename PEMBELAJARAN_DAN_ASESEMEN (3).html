@@ -1,0 +1,3839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="carbon">
+  <title>SiPerAs-SD: Perencanaan Pembelajaran & Asesmen Evaluasi SD (Kelas 1-6)</title>
+  
+  <!-- Fonts: IBM Plex Sans & IBM Plex Mono as per Carbon Style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces - Carbon style */
+      --background: #ffffff;
+      --surface-container-low: #f4f4f4;
+      --surface-container: #ffffff;
+      --surface-container-high: #e0e0e0;
+      --surface-subtle: #f8f9fa;
+
+      /* Ink */
+      --on-surface: #161616;
+      --on-surface-variant: #525252;
+      --on-surface-muted: #717171;
+
+      /* Rules */
+      --outline: #8d8d8d;
+      --outline-variant: #e0e0e0;
+
+      /* Accents */
+      --primary: #0f62fe;
+      --on-primary: #ffffff;
+      --primary-container: #edf5ff;
+      --on-primary-container: #002d9c;
+      --secondary: #6f6f6f;
+      --tertiary: #198038;
+      --error: #da1e28;
+      --on-error: #ffffff;
+
+      /* Semantic tokens */
+      --positive: #198038;
+      --positive-bg: #defbe6;
+      --positive-border: #a7f0ba;
+      --warning: #b28600;
+      --warning-bg: #fdf6d8;
+      --warning-border: #f1c21b;
+      --error-bg: #fff1f1;
+      --error-border: #ffb3b8;
+      --info-bg: #edf5ff;
+      --info-border: #82cfff;
+      --focus: #0f62fe;
+
+      /* Data series */
+      --data-1: #0f62fe;
+      --data-2: #6929c4;
+      --data-3: #005d5d;
+      --data-4: #9f1853;
+      --data-lots: #198038;
+      --data-mots: #0f62fe;
+      --data-hots: #8a3ffc;
+
+      /* Fonts */
+      --font-headline: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-label: 'IBM Plex Mono', monospace;
+
+      /* Shape */
+      --rounded-xs: 0.125rem;
+      --rounded: 0.125rem;
+      --rounded-md: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.12);
+      --rule: 1px solid var(--outline-variant);
+      --field-rule: 1px solid var(--outline);
+      --indicator: 2px solid var(--primary);
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Type scale for focused tool */
+      --display-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+      --headline-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem);
+      --subhead-size: clamp(1rem, 0.95rem + 0.2vw, 1.15rem);
+      --body-size: clamp(0.875rem, 0.85rem + 0.1vw, 0.95rem);
+      --label-size: 0.75rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 200ms;
+    }
+
+    /* Reset & Base Setup */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      background-color: var(--surface-container-low);
+      line-height: 1.5;
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Print Styling */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .card, .panel {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+      }
+      /* Adaptive Font for Grade Print */
+      .exam-paper-fase-a {
+        font-family: Arial, sans-serif !important;
+        font-size: 14pt !important;
+        line-height: 1.6 !important;
+      }
+      .exam-paper-fase-bc {
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+        line-height: 1.4 !important;
+      }
+    }
+
+    @media screen {
+      .print-only {
+        display: none !important;
+      }
+    }
+
+    /* Utility Layouts */
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      max-width: 1480px;
+      margin: 0 auto;
+      background-color: var(--background);
+      border-left: var(--rule);
+      border-right: var(--rule);
+    }
+
+    /* App Header */
+    .app-header {
+      background-color: #161616;
+      color: #ffffff;
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .brand-title {
+      font-size: var(--headline-size);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .brand-badge {
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 2px 8px;
+      border-radius: var(--rounded-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-desc {
+      color: #c6c6c6;
+      font-size: 0.825rem;
+      margin-top: var(--space-xs);
+    }
+
+    /* Controls Bar */
+    .control-ribbon {
+      background-color: var(--surface-container);
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .selector-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .control-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .select-input, .text-input, .number-input {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      padding: 0.4rem 0.75rem;
+      background-color: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-bottom: 2px solid var(--outline);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      outline: none;
+      transition: border-color var(--dur-micro) ease;
+    }
+
+    .select-input:focus, .text-input:focus, .number-input:focus {
+      border-color: var(--primary);
+      border-bottom-color: var(--primary);
+      background-color: #ffffff;
+    }
+
+    .grade-chip-container {
+      display: flex;
+      gap: 4px;
+      background-color: var(--surface-container-low);
+      padding: 2px;
+      border-radius: var(--rounded);
+      border: var(--rule);
+    }
+
+    .grade-chip {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border: none;
+      background: transparent;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: var(--rounded-xs);
+      transition: all var(--dur-micro) var(--ease-out);
+    }
+
+    .grade-chip:hover {
+      background-color: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+
+    .grade-chip.active {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .action-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .btn {
+      font-family: var(--font-body);
+      font-size: 0.825rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) ease, border-color var(--dur-micro) ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-primary:hover {
+      background-color: #0353e9;
+    }
+
+    .btn-secondary {
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      border: 1px solid var(--outline-variant);
+    }
+    .btn-secondary:hover {
+      background-color: var(--surface-container-high);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--outline);
+      color: var(--on-surface);
+    }
+    .btn-outline:hover {
+      background-color: var(--surface-container-low);
+    }
+
+    .btn-positive {
+      background-color: var(--tertiary);
+      color: #ffffff;
+    }
+    .btn-positive:hover {
+      background-color: #146c2e;
+    }
+
+    /* Main Navigation Tabs */
+    .tab-bar {
+      display: flex;
+      overflow-x: auto;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid var(--outline-variant);
+      padding: 0 var(--space-lg);
+    }
+
+    .tab-item {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      background: transparent;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--dur-micro) ease;
+    }
+
+    .tab-item:hover {
+      color: var(--on-surface);
+      background-color: #e8e8e8;
+    }
+
+    .tab-item.active {
+      color: var(--primary);
+      background-color: #ffffff;
+      border-bottom: 3px solid var(--primary);
+      font-weight: 700;
+    }
+
+    .tab-badge {
+      font-family: var(--font-label);
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: var(--rounded-full);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    /* Content Area */
+    .app-main {
+      padding: var(--space-lg);
+      flex: 1;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn var(--dur-short) var(--ease-out);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Metric & Status Cards */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .metric-card {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      padding: var(--space-md);
+      position: relative;
+      border-left: 4px solid var(--primary);
+    }
+
+    .metric-card.lots { border-left-color: var(--data-lots); }
+    .metric-card.mots { border-left-color: var(--data-mots); }
+    .metric-card.hots { border-left-color: var(--data-hots); }
+    .metric-card.alert { border-left-color: var(--warning); }
+
+    .metric-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 4px 0 2px 0;
+      font-family: var(--font-label);
+    }
+
+    .metric-sub {
+      font-size: 0.775rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Alert Banner */
+    .alert-banner {
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      font-size: 0.85rem;
+    }
+
+    .alert-banner.info {
+      background-color: var(--info-bg);
+      border: 1px solid var(--info-border);
+      color: #0043ce;
+    }
+
+    .alert-banner.warning {
+      background-color: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: #684e00;
+    }
+
+    .alert-banner.success {
+      background-color: var(--positive-bg);
+      border: 1px solid var(--positive-border);
+      color: #0e6027;
+    }
+
+    /* Cards & Containers */
+    .card {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-radius: var(--rounded);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--shadow-1);
+    }
+
+    .card-header {
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: var(--rule);
+      background-color: #fafafa;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .card-body {
+      padding: var(--space-lg);
+    }
+
+    /* Question Construction Configuration Grid */
+    .construct-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .construct-box {
+      background-color: var(--surface-subtle);
+      border: 1px solid var(--outline-variant);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      position: relative;
+      transition: all var(--dur-micro) ease;
+    }
+
+    .construct-box:hover {
+      border-color: var(--primary);
+    }
+
+    .construct-box.disabled {
+      opacity: 0.55;
+      background-color: #eeeeee;
+      pointer-events: none;
+    }
+
+    .construct-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .construct-badge {
+      font-family: var(--font-label);
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: var(--rounded-xs);
+      background: #e0e0e0;
+      font-weight: 600;
+    }
+
+    .construct-desc {
+      font-size: 0.775rem;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-sm);
+      min-height: 2.4em;
+    }
+
+    .construct-input-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
+    }
+
+    /* Progress bar for Cognitive distributions */
+    .cog-bar-wrap {
+      background-color: var(--surface-container-high);
+      height: 20px;
+      width: 100%;
+      border-radius: var(--rounded);
+      overflow: hidden;
+      display: flex;
+      margin: var(--space-sm) 0;
+    }
+
+    .cog-seg {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      font-weight: 600;
+      transition: width var(--dur-short) ease;
+    }
+
+    .cog-seg.lots { background-color: var(--data-lots); }
+    .cog-seg.mots { background-color: var(--data-mots); }
+    .cog-seg.hots { background-color: var(--data-hots); }
+
+    /* Tables */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border: var(--rule);
+      border-radius: var(--rounded);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    .data-table th {
+      background-color: var(--surface-container-low);
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.6rem 0.8rem;
+      border-bottom: 2px solid var(--outline-variant);
+      color: var(--on-surface);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 0.65rem 0.8rem;
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: middle;
+    }
+
+    .data-table tr:hover td {
+      background-color: #fafafa;
+    }
+
+    /* Tag / Pill */
+    .tag {
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--rounded-xs);
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .tag-lots { background-color: var(--positive-bg); color: var(--positive); border: 1px solid var(--positive-border); }
+    .tag-mots { background-color: var(--info-bg); color: #0043ce; border: 1px solid var(--info-border); }
+    .tag-hots { background-color: #f6f2ff; color: #6929c4; border: 1px solid #d4bbff; }
+
+    /* Question Item Box in Interactive & Exam Paper */
+    .question-block {
+      background-color: #ffffff;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+      transition: border-color var(--dur-micro) ease;
+    }
+
+    .question-block:hover {
+      border-color: #b0b0b0;
+    }
+
+    .question-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xs);
+      gap: var(--space-xs);
+    }
+
+    .q-num-badge {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.85rem;
+      background-color: var(--surface-container-high);
+      color: var(--on-surface);
+      padding: 2px 8px;
+      border-radius: var(--rounded-xs);
+    }
+
+    .stimulus-box {
+      background-color: #fbfbfb;
+      border-left: 3px solid var(--primary);
+      padding: var(--space-sm) var(--space-md);
+      margin: var(--space-xs) 0 var(--space-sm) 0;
+      font-size: 0.875rem;
+      color: #333333;
+      font-style: italic;
+    }
+
+    .option-list {
+      list-style: none;
+      margin-top: var(--space-xs);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      padding: 6px 10px;
+      border-radius: var(--rounded-xs);
+      border: 1px solid var(--outline-variant);
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background-color var(--dur-micro) ease;
+    }
+
+    .option-item:hover {
+      background-color: var(--surface-subtle);
+    }
+
+    .option-item.selected {
+      background-color: var(--primary-container);
+      border-color: var(--primary);
+      font-weight: 500;
+    }
+
+    .option-item.correct-reveal {
+      background-color: var(--positive-bg) !important;
+      border-color: var(--positive) !important;
+      font-weight: 600;
+    }
+
+    .option-item.wrong-reveal {
+      background-color: var(--error-bg) !important;
+      border-color: var(--error) !important;
+    }
+
+    /* Matching Item Styles */
+    .matching-table {
+      width: 100%;
+      margin-top: var(--space-xs);
+      border-collapse: collapse;
+    }
+
+    .matching-table td {
+      padding: 6px 8px;
+      border: 1px solid var(--outline-variant);
+      font-size: 0.85rem;
+    }
+
+    /* Complex MC / True False Matrix */
+    .tf-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--space-xs);
+    }
+    .tf-table th, .tf-table td {
+      border: 1px solid var(--outline-variant);
+      padding: 6px 8px;
+      font-size: 0.825rem;
+      text-align: center;
+    }
+    .tf-table td:nth-child(2) {
+      text-align: left;
+    }
+
+    /* Exam Paper Official Header */
+    .official-kop {
+      border-bottom: 3px double #000000;
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .kop-instansi {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .kop-sekolah {
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .kop-detail {
+      font-size: 0.775rem;
+      color: var(--on-surface-variant);
+    }
+
+    .exam-identity-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px var(--space-lg);
+      font-size: 0.85rem;
+      margin-bottom: var(--space-md);
+      border: 1px solid #000;
+      padding: var(--space-sm) var(--space-md);
+      background-color: #fafafa;
+    }
+
+    /* Deep Learning Flow Diagram */
+    .dl-flow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .dl-flow-card {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      position: relative;
+    }
+
+    .dl-flow-card.step-1 { border-top: 4px solid #0f62fe; }
+    .dl-flow-card.step-2 { border-top: 4px solid #198038; }
+    .dl-flow-card.step-3 { border-top: 4px solid #8a3ffc; }
+
+    .dl-step-num {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+    }
+
+    .dl-step-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 2px 0 var(--space-xs) 0;
+    }
+
+    /* Profil Lulusan Badges */
+    .dpl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-xs);
+      margin-top: var(--space-xs);
+    }
+
+    .dpl-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      background-color: var(--surface-subtle);
+      padding: 6px 8px;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded-xs);
+    }
+
+    .dpl-item.selected {
+      background-color: var(--primary-container);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Rubric Score Matrix */
+    .rubric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: var(--space-xs);
+    }
+
+    .rubric-cell {
+      border: 1px solid var(--outline-variant);
+      padding: 6px 8px;
+      font-size: 0.75rem;
+      background-color: #fafafa;
+    }
+
+    .rubric-score {
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Modal / Drawer for Editing */
+    .custom-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #161616;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-left: 4px solid var(--tertiary);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-2);
+      font-size: 0.85rem;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 768px) {
+      .header-top, .control-ribbon {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .selector-group, .action-btn-row {
+        width: 100%;
+      }
+      .grade-chip-container {
+        overflow-x: auto;
+        width: 100%;
+      }
+      .rubric-grid {
+        grid-template-columns: 1fr;
+      }
+      .exam-identity-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- APP HEADER -->
+  <header class="app-header no-print">
+    <div class="header-top">
+      <div>
+        <div class="brand-title">
+          <i data-lucide="book-open-check"></i>
+          <span>SiPerAs-SD</span>
+          <span class="brand-badge">Kurikulum Merdeka 2025</span>
+        </div>
+        <p class="header-desc">
+          Sistem Terpadu Perencanaan Pembelajaran Mendalam (Deep Learning) & Evaluasi Asesmen SD (Fase A: Kls 1-2, Fase B: Kls 3-4, Fase C: Kls 5-6)
+        </p>
+      </div>
+
+      <div class="action-btn-row">
+        <button class="btn btn-secondary" onclick="applyStandardPreset()" title="Terapkan Preset Acuan Soal SD">
+          <i data-lucide="sparkles"></i> Preset Standar SD
+        </button>
+        <button class="btn btn-primary" onclick="saveStateToStorage()" title="Simpan status kerja">
+          <i data-lucide="save"></i> Simpan
+        </button>
+        <button class="btn btn-positive" onclick="printActiveDocument()" title="Cetak Naskah Ujian atau Kisi-Kisi">
+          <i data-lucide="printer"></i> Cetak Dokumen
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTROL RIBBON -->
+  <section class="control-ribbon no-print">
+    <!-- Grade Selector -->
+    <div class="selector-group">
+      <span class="control-label">Pilih Kelas:</span>
+      <div class="grade-chip-container" id="gradeChips">
+        <button class="grade-chip" onclick="setGrade(1)">Kls 1 <span class="tab-badge">A</span></button>
+        <button class="grade-chip" onclick="setGrade(2)">Kls 2 <span class="tab-badge">A</span></button>
+        <button class="grade-chip" onclick="setGrade(3)">Kls 3 <span class="tab-badge">B</span></button>
+        <button class="grade-chip active" onclick="setGrade(4)">Kls 4 <span class="tab-badge">B</span></button>
+        <button class="grade-chip" onclick="setGrade(5)">Kls 5 <span class="tab-badge">C</span></button>
+        <button class="grade-chip" onclick="setGrade(6)">Kls 6 <span class="tab-badge">C</span></button>
+      </div>
+    </div>
+
+    <!-- Subject Selector -->
+    <div class="selector-group">
+      <span class="control-label">Mata Pelajaran:</span>
+      <select id="subjectSelect" class="select-input" onchange="changeSubject()">
+        <option value="ipas">IPAS (Ilmu Pengetahuan Alam & Sosial)</option>
+        <option value="indonesia">Bahasa Indonesia</option>
+        <option value="matematika">Matematika</option>
+        <option value="pancasila">Pendidikan Pancasila</option>
+        <option value="inggris">Bahasa Inggris</option>
+        <option value="pjok">PJOK</option>
+      </select>
+    </div>
+
+    <!-- Semester & Asesmen Category -->
+    <div class="selector-group">
+      <span class="control-label">Lingkup Evaluasi:</span>
+      <select id="evalTypeSelect" class="select-input" onchange="renderAll()">
+        <option value="psas">PSAS (Penilaian Sumatif Akhir Semester)</option>
+        <option value="sts">STS (Sumatif Tengah Semester)</option>
+        <option value="sumatif_bab">Sumatif Akhir Lingkup Materi (Bab)</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="tab-bar no-print">
+    <button class="tab-item active" onclick="switchTab('tab-construct')">
+      <i data-lucide="layers"></i>
+      <span>Konstruksi Asesmen Evaluasi</span>
+      <span class="tab-badge" id="tabBadgeConstruct">35 Butir</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('tab-exam')">
+      <i data-lucide="file-text"></i>
+      <span>Naskah Soal & Simulasi Ujian</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('tab-matrix')">
+      <i data-lucide="table-properties"></i>
+      <span>Matriks Kisi-Kisi & Kunci</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('tab-planning')">
+      <i data-lucide="compass"></i>
+      <span>Perencanaan Modul Deep Learning</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('tab-holistic')">
+      <i data-lucide="clipboard-check"></i>
+      <span>Asesmen Formatif & Rapor</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('tab-guide')">
+      <i data-lucide="info"></i>
+      <span>Alur Telaah KKG SD</span>
+    </button>
+  </nav>
+
+  <!-- CONTENT PANELS -->
+  <main class="app-main">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: PENGELOLAAN KONSTRUKSI ASESMEN EVALUASI (FITUR BARU & UTAMA)       -->
+    <!-- ========================================================================= -->
+    <section id="tab-construct" class="tab-panel active">
+      
+      <!-- Live Technical Status Bar -->
+      <div id="techValidationBanner"></div>
+
+      <!-- Top Summary Metrics -->
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-label">
+            <span>Total Butir Soal</span>
+            <i data-lucide="hash"></i>
+          </div>
+          <div class="metric-val" id="totalQuestionsCount">35</div>
+          <div class="metric-sub" id="presetRefLabel">Acuan Standar Kelas 4: 35 Butir</div>
+        </div>
+
+        <div class="metric-card lots">
+          <div class="metric-label">
+            <span>LOTS (C1-C2)</span>
+            <span class="tag tag-lots">Target 30%</span>
+          </div>
+          <div class="metric-val" id="lotsPercentVal">30%</div>
+          <div class="metric-sub" id="lotsCountVal">11 Butir (Mengingat/Memahami)</div>
+        </div>
+
+        <div class="metric-card mots">
+          <div class="metric-label">
+            <span>MOTS (C3-C4)</span>
+            <span class="tag tag-mots">Target 50%</span>
+          </div>
+          <div class="metric-val" id="motsPercentVal">50%</div>
+          <div class="metric-sub" id="motsCountVal">17 Butir (Aplikasi/Analisis)</div>
+        </div>
+
+        <div class="metric-card hots">
+          <div class="metric-label">
+            <span>HOTS (C5-C6)</span>
+            <span class="tag tag-hots">Target 20%</span>
+          </div>
+          <div class="metric-val" id="hotsPercentVal">20%</div>
+          <div class="metric-sub" id="hotsCountVal">7 Butir (Evaluasi/Kreasi)</div>
+        </div>
+      </div>
+
+      <!-- Cognitive Distribution Bar -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="pie-chart"></i>
+            <span>Distribusi Proporsi Tingkat Kognitif (30% LOTS : 50% MOTS : 20% HOTS)</span>
+          </div>
+          <div id="cogValidationStatus"></div>
+        </div>
+        <div class="card-body">
+          <div class="cog-bar-wrap" id="cogBarVisual">
+            <div class="cog-seg lots" style="width: 30%;" id="barSegLots">LOTS 30%</div>
+            <div class="cog-seg mots" style="width: 50%;" id="barSegMots">MOTS 50%</div>
+            <div class="cog-seg hots" style="width: 20%;" id="barSegHots">HOTS 20%</div>
+          </div>
+          <p class="header-desc" style="color: var(--on-surface-variant); margin-top: var(--space-xs);">
+            *Proporsi disesuaikan dengan pedoman penyusunan naskah soal asesmen SD Ditjen Dikdasmen: L1 (Pemahaman/Ingatan 30%), L2 (Aplikasi konteks rutin 50%), dan L3 (Penalaran masalah terbuka/HOTS 20%).
+          </p>
+        </div>
+      </div>
+
+      <!-- 5 Construction Types Configuration Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="sliders"></i>
+            <span>Alokasi 5 Jenis Pertanyaan Berdasarkan Konstruksi Asesmen Evaluasi</span>
+          </div>
+          <div class="action-btn-row">
+            <button class="btn btn-secondary" onclick="applyPresetGradeTable()">
+              <i data-lucide="refresh-cw"></i> Reset ke Preset Kelas <span id="currentGradeBadgeText">4</span>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="construct-grid">
+            
+            <!-- 1. Pilihan Ganda Sederhana -->
+            <div class="construct-box" id="box-pg">
+              <div class="construct-title">
+                <span>1. PG Sederhana</span>
+                <span class="construct-badge" id="badge-pg-opt">4 Opsi (A-D)</span>
+              </div>
+              <div class="construct-desc">
+                Pilihan 1 jawaban benar. Memuat stimulus gambar/kasus. Pilihan homogen dan tidak ambigu.
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="count-pg">Jumlah Soal:</label>
+                <input type="number" id="count-pg" class="number-input" min="0" max="40" value="15" onchange="updateConstructCounts()" style="width: 75px;">
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="weight-pg">Bobot/Skor:</label>
+                <input type="number" id="weight-pg" class="number-input" min="1" max="10" value="1" onchange="calculateScoreWeights()" style="width: 75px;">
+              </div>
+            </div>
+
+            <!-- 2. Pilihan Ganda Kompleks (MCMA / Benar-Salah) -->
+            <div class="construct-box" id="box-pgk">
+              <div class="construct-title">
+                <span>2. PG Kompleks</span>
+                <span class="construct-badge" id="badge-pgk-phase">Kelas 4-6</span>
+              </div>
+              <div class="construct-desc">
+                Multi-jawaban benar (kotak centang), pernyataan Benar/Salah, atau Ya/Tidak berbasis analisis stimulus.
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="count-pgk">Jumlah Soal:</label>
+                <input type="number" id="count-pgk" class="number-input" min="0" max="25" value="5" onchange="updateConstructCounts()" style="width: 75px;">
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="weight-pgk">Bobot/Skor:</label>
+                <input type="number" id="weight-pgk" class="number-input" min="1" max="10" value="2" onchange="calculateScoreWeights()" style="width: 75px;">
+              </div>
+            </div>
+
+            <!-- 3. Menjodohkan (Matching) -->
+            <div class="construct-box" id="box-matching">
+              <div class="construct-title">
+                <span>3. Menjodohkan</span>
+                <span class="construct-badge">Matching</span>
+              </div>
+              <div class="construct-desc">
+                Mencocokkan premis di kolom kiri dengan pasangan konsep/istilah/fakta yang tepat di kolom kanan.
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="count-matching">Jumlah Soal:</label>
+                <input type="number" id="count-matching" class="number-input" min="0" max="15" value="5" onchange="updateConstructCounts()" style="width: 75px;">
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="weight-matching">Bobot/Skor:</label>
+                <input type="number" id="weight-matching" class="number-input" min="1" max="10" value="2" onchange="calculateScoreWeights()" style="width: 75px;">
+              </div>
+            </div>
+
+            <!-- 4. Isian Singkat -->
+            <div class="construct-box" id="box-isian">
+              <div class="construct-title">
+                <span>4. Isian Singkat</span>
+                <span class="construct-badge">Short Answer</span>
+              </div>
+              <div class="construct-desc">
+                Melengkapi kalimat rumpang, mengidentifikasi kata kunci esensial, atau perhitungan singkat pasti.
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="count-isian">Jumlah Soal:</label>
+                <input type="number" id="count-isian" class="number-input" min="0" max="20" value="7" onchange="updateConstructCounts()" style="width: 75px;">
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="weight-isian">Bobot/Skor:</label>
+                <input type="number" id="weight-isian" class="number-input" min="1" max="10" value="2" onchange="calculateScoreWeights()" style="width: 75px;">
+              </div>
+            </div>
+
+            <!-- 5. Uraian / Esai (HOTS) -->
+            <div class="construct-box" id="box-uraian">
+              <div class="construct-title">
+                <span>5. Uraian / Esai</span>
+                <span class="construct-badge" id="badge-uraian-phase">Kelas 3-6</span>
+              </div>
+              <div class="construct-desc">
+                Penalaran terbuka, pemecahan masalah non-rutin, argumentasi ilmiah dengan rubrik penskoran 1-4.
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="count-uraian">Jumlah Soal:</label>
+                <input type="number" id="count-uraian" class="number-input" min="0" max="10" value="3" onchange="updateConstructCounts()" style="width: 75px;">
+              </div>
+              <div class="construct-input-row">
+                <label class="control-label" for="weight-uraian">Bobot/Skor:</label>
+                <input type="number" id="weight-uraian" class="number-input" min="1" max="10" value="4" onchange="calculateScoreWeights()" style="width: 75px;">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Technical Validation Checklist Card -->
+          <div style="background-color: var(--surface-subtle); padding: var(--space-md); border-radius: var(--rounded); border: 1px solid var(--outline-variant); margin-top: var(--space-md);">
+            <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: var(--space-xs); display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="shield-check" style="color: var(--tertiary);"></i>
+              <span>Validasi Aturan Teknis Penulisan Soal Sesuai Fase Perkembangan:</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-sm); font-size: 0.825rem;">
+              <div id="ruleGradeOptions" style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="check-circle-2" style="color: var(--tertiary);"></i>
+                <span>Jumlah Opsi PG: <strong>4 Pilihan (A-B-C-D)</strong> untuk Kelas 4</span>
+              </div>
+              <div id="ruleGradeFont" style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="check-circle-2" style="color: var(--tertiary);"></i>
+                <span>Standar Tipografi: <strong>Arial 11pt</strong> (Kelas 3-6)</span>
+              </div>
+              <div id="rulePhaseAdvice" style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="check-circle-2" style="color: var(--tertiary);"></i>
+                <span>Kompatibilitas Fase B: PG Kompleks & Uraian diizinkan secara proporsional</span>
+              </div>
+              <div id="ruleTotalWeight" style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="calculator" style="color: var(--primary);"></i>
+                <span>Total Bobot Skor Mentah: <strong id="rawScoreSumText">51 poin</strong> (Skala 100 terkonversi otomatis)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Reference Presets SD Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="table"></i>
+            <span>Tabel Matriks Acuan Standar Naskah Soal SD (Kurikulum Merdeka 2025)</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Fase</th>
+                  <th>Kelas</th>
+                  <th>Total Butir</th>
+                  <th>PG Sederhana</th>
+                  <th>PG Kompleks</th>
+                  <th>Menjodohkan</th>
+                  <th>Isian Singkat</th>
+                  <th>Uraian</th>
+                  <th>Opsi PG</th>
+                  <th>Font Standar</th>
+                  <th>Aksi Cepat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="row-preset-1">
+                  <td><strong>Fase A</strong></td>
+                  <td>Kelas 1</td>
+                  <td><strong>20 Soal</strong></td>
+                  <td>12</td>
+                  <td>-</td>
+                  <td>3</td>
+                  <td>5</td>
+                  <td>-</td>
+                  <td>3 Opsi (A-B-C)</td>
+                  <td>Arial 14pt</td>
+                  <td><button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;" onclick="setGrade(1)">Terapkan</button></td>
+                </tr>
+                <tr id="row-preset-2">
+                  <td><strong>Fase A</strong></td>
+                  <td>Kelas 2</td>
+                  <td><strong>25 Soal</strong></td>
+                  <td>15</td>
+                  <td>-</td>
+                  <td>4</td>
+                  <td>6</td>
+                  <td>-</td>
+                  <td>3 Opsi (A-B-C)</td>
+                  <td>Arial 14pt</td>
+                  <td><button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;" onclick="setGrade(2)">Terapkan</button></td>
+                </tr>
+                <tr id="row-preset-3">
+                  <td><strong>Fase B</strong></td>
+                  <td>Kelas 3</td>
+                  <td><strong>30 Soal</strong></td>
+                  <td>15</td>
+                  <td>-</td>
+                  <td>5</td>
+                  <td>7</td>
+                  <td>3</td>
+                  <td>4 Opsi (A-D)</td>
+                  <td>Arial 11pt</td>
+                  <td><button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;" onclick="setGrade(3)">Terapkan</button></td>
+                </tr>
+                <tr id="row-preset-4" style="background-color: var(--primary-container);">
+                  <td><strong>Fase B</strong></td>
+                  <td>Kelas 4</td>
+                  <td><strong>35 Soal</strong></td>
+                  <td>15</td>
+                  <td>5</td>
+                  <td>5</td>
+                  <td>7</td>
+                  <td>3</td>
+                  <td>4 Opsi (A-D)</td>
+                  <td>Arial 11pt</td>
+                  <td><button class="btn btn-primary" style="padding: 2px 8px; font-size: 0.75rem;" onclick="setGrade(4)">Aktif Saat Ini</button></td>
+                </tr>
+                <tr id="row-preset-5">
+                  <td><strong>Fase C</strong></td>
+                  <td>Kelas 5</td>
+                  <td><strong>40 Soal</strong></td>
+                  <td>15</td>
+                  <td>10</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>4</td>
+                  <td>4 Opsi (A-D)</td>
+                  <td>Arial 11pt</td>
+                  <td><button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;" onclick="setGrade(5)">Terapkan</button></td>
+                </tr>
+                <tr id="row-preset-6">
+                  <td><strong>Fase C</strong></td>
+                  <td>Kelas 6</td>
+                  <td><strong>40 Soal</strong></td>
+                  <td>15</td>
+                  <td>10</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>4</td>
+                  <td>4 Opsi (A-D)</td>
+                  <td>Arial 11pt</td>
+                  <td><button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;" onclick="setGrade(6)">Terapkan</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="alert-banner info" style="margin-top: var(--space-md); margin-bottom: 0;">
+            <i data-lucide="info"></i>
+            <div>
+              <strong>Keterangan Khusus Fase A (Kelas 1 & 2):</strong> Sesuai Panduan Pembelajaran dan Asesmen 2025, pelaksanaan asesmen pada Fase A tidak menggunakan tes tertulis yang memberatkan. Pilihan jawaban dibatasi 3 opsi (A, B, C) dengan stimulus bergambar dan ukuran huruf besar (Arial 14pt) untuk kenyamanan literasi awal.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: NASKAH SOAL PSAS & SIMULASI UJIAN INTERAKTIF                      -->
+    <!-- ========================================================================= -->
+    <section id="tab-exam" class="tab-panel">
+      
+      <!-- Toolbar for Exam View -->
+      <div class="card no-print" style="margin-bottom: var(--space-md);">
+        <div class="card-body" style="padding: var(--space-md); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-sm);">
+          <div style="display: flex; align-items: center; gap: var(--space-sm);">
+            <button class="btn btn-primary" onclick="setExamMode('sheet')">
+              <i data-lucide="file-text"></i> Format Naskah Cetak
+            </button>
+            <button class="btn btn-secondary" onclick="setExamMode('interactive')">
+              <i data-lucide="play-circle"></i> Mode Simulasi Interaktif Murid
+            </button>
+            <button class="btn btn-outline" onclick="toggleExamFontSize()">
+              <i data-lucide="type"></i> Toggle Font (<span id="fontDisplayLabel">Arial 11pt</span>)
+            </button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: var(--space-xs);">
+            <button class="btn btn-outline" onclick="printExamOnly()">
+              <i data-lucide="printer"></i> Cetak Naskah
+            </button>
+            <button class="btn btn-outline" onclick="printAnswerSheet()">
+              <i data-lucide="grid"></i> Cetak Lembar Jawaban (LJS)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Printable & Interactive Paper Container -->
+      <div class="card" id="examPaperCard">
+        <div class="card-body" id="examPaperContent">
+          <!-- KOP SEKOLAH RESMI -->
+          <div class="official-kop">
+            <div class="kop-instansi">PEMERINTAH KABUPATEN / KOTA PENDIDIKAN DASAR</div>
+            <div class="kop-instansi">DINAS PENDIDIKAN DAN KEBUDAYAAN</div>
+            <div class="kop-sekolah">PENILAIAN SUMATIF AKHIR SEMESTER (PSAS) SD</div>
+            <div class="kop-detail">TAHUN AJARAN 2025/2026 • KURIKULUM MERDEKA</div>
+          </div>
+
+          <!-- IDENTITAS PESERTA -->
+          <div class="exam-identity-grid">
+            <div><strong>Mata Pelajaran:</strong> <span id="examMetaSubject">IPAS (Ilmu Pengetahuan Alam & Sosial)</span></div>
+            <div><strong>Nama Peserta:</strong> ____________________________________</div>
+            <div><strong>Kelas / Fase:</strong> <span id="examMetaGrade">Kelas 4 (Fase B)</span></div>
+            <div><strong>Nomor Absen:</strong> ____________________________________</div>
+            <div><strong>Hari, Tanggal:</strong> <span id="examMetaDate">Senin, 17 November 2026</span></div>
+            <div><strong>Waktu Pengerjaan:</strong> 90 Menit</div>
+          </div>
+
+          <!-- PETUNJUK PENGERJAAN UMUM -->
+          <div style="background-color: #f9f9f9; border: 1px dashed #777; padding: 8px 12px; margin-bottom: var(--space-lg); font-size: 0.8rem;">
+            <strong>PETUNJUK UMUM:</strong>
+            <ol style="margin-left: 20px; margin-top: 4px;">
+              <li>Berdoalah sebelum mengerjakan soal.</li>
+              <li>Tuliskan nama dan nomor absen pada lembar jawaban yang tersedia.</li>
+              <li>Bacalah setiap stimulus bacaan/gambar dengan teliti sebelum menjawab.</li>
+              <li>Kerjakan soal yang kamu anggap mudah terlebih dahulu.</li>
+              <li id="ruleNoticeText">Pilihlah salah satu jawaban yang paling tepat (A, B, C, atau D).</li>
+            </ol>
+          </div>
+
+          <!-- DYNAMIC QUESTIONS LIST CONTAINER -->
+          <div id="examQuestionsContainer">
+            <!-- Rendered by JS per Construction Type -->
+          </div>
+
+          <!-- STUDENT INTERACTIVE SIMULATOR ACTION BAR (Shown only in interactive mode) -->
+          <div id="interactiveSubmitBar" class="no-print" style="margin-top: var(--space-xl); padding: var(--space-md); background: #fafafa; border: 1px solid var(--outline-variant); border-radius: var(--rounded); display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm);">
+              <div>
+                <strong>Simulasi Ujian Selesai?</strong> Klik untuk memeriksa skor dan umpan balik otomatis.
+              </div>
+              <div style="display: flex; gap: var(--space-sm);">
+                <button class="btn btn-outline" onclick="resetInteractiveAnswers()">Reset Jawaban</button>
+                <button class="btn btn-positive" onclick="evaluateInteractiveExam()">
+                  <i data-lucide="check-check"></i> Periksa & Nilai Jawaban
+                </button>
+              </div>
+            </div>
+            <div id="interactiveResultBox" style="margin-top: var(--space-md); display: none;"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: MATRIKS KISI-KISI & KUNCI JAWABAN LENGKAP                         -->
+    <!-- ========================================================================= -->
+    <section id="tab-matrix" class="tab-panel">
+      
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="file-spreadsheet"></i>
+            <span>Matriks Kisi-Kisi Penulisan Soal Evaluasi PSAS (Berstandar BSKAP Kemendikdasmen)</span>
+          </div>
+          <div class="action-btn-row no-print">
+            <button class="btn btn-secondary" onclick="exportKisiKisiCSV()">
+              <i data-lucide="download"></i> Ekspor CSV / Excel
+            </button>
+            <button class="btn btn-outline" onclick="printKisiKisiOnly()">
+              <i data-lucide="printer"></i> Cetak Kisi-Kisi
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table" id="kisiKisiTable">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Capaian Pembelajaran (CP)</th>
+                  <th>Tujuan Pembelajaran (TP)</th>
+                  <th>Materi Esensial</th>
+                  <th>Indikator Soal</th>
+                  <th>Level Kognitif</th>
+                  <th>Bentuk Soal</th>
+                  <th>Bobot</th>
+                  <th>No. Soal</th>
+                </tr>
+              </thead>
+              <tbody id="kisiKisiTableBody">
+                <!-- Dynamically Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kunci Jawaban & Pedoman Penskoran Detail -->
+      <div class="card page-break">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="key-round"></i>
+            <span>Kunci Jawaban, Pedoman Penskoran, & Rubrik Pembobotan Nilai</span>
+          </div>
+          <div class="action-btn-row no-print">
+            <button class="btn btn-outline" onclick="printKunciOnly()">
+              <i data-lucide="printer"></i> Cetak Kunci & Rubrik
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="kunciJawabanContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: PERENCANAAN MODUL AJAR DEEP LEARNING (3 TAHAP + 8 DIMENSI)        -->
+    <!-- ========================================================================= -->
+    <section id="tab-planning" class="tab-panel">
+      
+      <!-- Deep Learning Philosophy Banner -->
+      <div class="alert-banner info">
+        <i data-lucide="sparkles"></i>
+        <div>
+          <strong>Pendekatan Pembelajaran Mendalam (Deep Learning):</strong> Berfokus pada penguasaan materi esensial secara bermakna, berkesadaran, dan menggembirakan. Murid tidak dibebani konten padat melainkan diajak mengonstruksi pemahaman, mengaplikasikan dalam kehidupan nyata, dan melakukan refleksi metakognitif.
+        </div>
+      </div>
+
+      <!-- 8 Dimensi Profil Lulusan Selector -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="award"></i>
+            <span>8 Dimensi Profil Lulusan (Kemendikdasmen 2025)</span>
+          </div>
+          <span class="control-label">Pilih dimensi yang dikuatkan pada modul ini</span>
+        </div>
+        <div class="card-body">
+          <div class="dpl-grid" id="dplGridContainer">
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl1')">
+              <input type="checkbox" checked style="display:none;" id="dpl1">
+              <i data-lucide="heart" style="width: 14px; height: 14px; color: #da1e28;"></i>
+              <span>1. Keimanan & Ketakwaan</span>
+            </label>
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl2')">
+              <input type="checkbox" checked style="display:none;" id="dpl2">
+              <i data-lucide="flag" style="width: 14px; height: 14px; color: #b28600;"></i>
+              <span>2. Kewargaan</span>
+            </label>
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl3')">
+              <input type="checkbox" checked style="display:none;" id="dpl3">
+              <i data-lucide="brain" style="width: 14px; height: 14px; color: #0f62fe;"></i>
+              <span>3. Penalaran Kritis</span>
+            </label>
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl4')">
+              <input type="checkbox" checked style="display:none;" id="dpl4">
+              <i data-lucide="lightbulb" style="width: 14px; height: 14px; color: #8a3ffc;"></i>
+              <span>4. Kreativitas</span>
+            </label>
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl5')">
+              <input type="checkbox" checked style="display:none;" id="dpl5">
+              <i data-lucide="users" style="width: 14px; height: 14px; color: #198038;"></i>
+              <span>5. Kolaborasi</span>
+            </label>
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl6')">
+              <input type="checkbox" checked style="display:none;" id="dpl6">
+              <i data-lucide="user-check" style="width: 14px; height: 14px; color: #005d5d;"></i>
+              <span>6. Kemandirian</span>
+            </label>
+            <label class="dpl-item" onclick="toggleDpl(this, 'dpl7')">
+              <input type="checkbox" style="display:none;" id="dpl7">
+              <i data-lucide="activity" style="width: 14px; height: 14px; color: #da1e28;"></i>
+              <span>7. Kesehatan</span>
+            </label>
+            <label class="dpl-item selected" onclick="toggleDpl(this, 'dpl8')">
+              <input type="checkbox" checked style="display:none;" id="dpl8">
+              <i data-lucide="message-square" style="width: 14px; height: 14px; color: #0f62fe;"></i>
+              <span>8. Komunikasi</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Kerangka Kerja Pembelajaran Mendalam -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="layout-grid"></i>
+            <span>4 Pilar Desain Pembelajaran Mendalam</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md);">
+            <div style="background-color: var(--surface-subtle); padding: var(--space-md); border-radius: var(--rounded); border: 1px solid var(--outline-variant);">
+              <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="book-open" style="color: var(--primary);"></i>
+                <span>1. Praktik Pedagogis</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);" id="pilarPedagogisText">
+                Model Inkuiri Kontekstual & Project Based Learning (PjBL) simulasi sains dan eksplorasi data lingkungan sekitar sekolah.
+              </p>
+            </div>
+
+            <div style="background-color: var(--surface-subtle); padding: var(--space-md); border-radius: var(--rounded); border: 1px solid var(--outline-variant);">
+              <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="handshake" style="color: var(--tertiary);"></i>
+                <span>2. Kemitraan Pembelajaran</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);" id="pilarKemitraanText">
+                Kolaborasi antarmurid dalam kelompok heterogen, keterlibatan orang tua dalam pengamatan hemat energi di rumah.
+              </p>
+            </div>
+
+            <div style="background-color: var(--surface-subtle); padding: var(--space-md); border-radius: var(--rounded); border: 1px solid var(--outline-variant);">
+              <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="home" style="color: var(--warning);"></i>
+                <span>3. Lingkungan Pembelajaran</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);" id="pilarLingkunganText">
+                Ruang kelas yang aman, saling menghargai pendapat tanpa takut salah, kebun sekolah sebagai laboratorium observasi nyata.
+              </p>
+            </div>
+
+            <div style="background-color: var(--surface-subtle); padding: var(--space-md); border-radius: var(--rounded); border: 1px solid var(--outline-variant);">
+              <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="laptop" style="color: #8a3ffc;"></i>
+                <span>4. Pemanfaatan Digital</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);" id="pilarDigitalText">
+                Video animasi pendek proses fotosintesis/siklus hidup, asesmen interaktif kuis kelas digital, dan presentasi infografis sederhana.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alur Pengalaman Belajar Deep Learning 3 Tahap -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="git-commit"></i>
+            <span>Siklus Pengalaman Belajar: Memahami, Mengaplikasi, & Merefleksi</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="dl-flow-grid">
+            
+            <!-- Tahap 1: Memahami -->
+            <div class="dl-flow-card step-1">
+              <span class="dl-step-num">Tahap 1</span>
+              <div class="dl-step-title">Memahami (Understanding)</div>
+              <div class="construct-badge" style="background:#edf5ff; color:#002d9c; margin-bottom: 8px;">Berkesadaran & Bermakna</div>
+              <div style="font-size: 0.825rem; color: var(--on-surface);" id="dlMemahamiContent">
+                Murid aktif mengonstruksi pemahaman konsep esensial melalui stimulus visual kontekstual, tanya jawab terarah, dan analisis fakta nyata. Bukan menghafal pasif, melainkan menemukan pola dan keterkaitan materi.
+              </div>
+              <div style="margin-top: 10px; font-size: 0.775rem; border-top: 1px dashed var(--outline-variant); padding-top: 6px;">
+                <strong>Fokus Asesmen:</strong> Asesmen Awal & Formatif (Tanya jawab, tes diagnostik non-kognitif, kuis pemantik).
+              </div>
+            </div>
+
+            <!-- Tahap 2: Mengaplikasi -->
+            <div class="dl-flow-card step-2">
+              <span class="dl-step-num">Tahap 2</span>
+              <div class="dl-step-title">Mengaplikasi (Applying)</div>
+              <div class="construct-badge" style="background:#defbe6; color:#0e6027; margin-bottom: 8px;">Kontekstual Dunia Nyata</div>
+              <div style="font-size: 0.825rem; color: var(--on-surface);" id="dlMengaplikasiContent">
+                Murid menerapkan pengetahuan yang diperoleh untuk memecahkan persoalan hidup, kehidupan, atau penghidupan sehari-hari. Berkolaborasi dalam proyek mini, melakukan penyelidikan, dan mempresentasikan karya.
+              </div>
+              <div style="margin-top: 10px; font-size: 0.775rem; border-top: 1px dashed var(--outline-variant); padding-top: 6px;">
+                <strong>Fokus Asesmen:</strong> Asesmen Formatif Proses (Observasi diskusi, unjuk kerja kelompok, lembar kerja eksperimen).
+              </div>
+            </div>
+
+            <!-- Tahap 3: Merefleksi -->
+            <div class="dl-flow-card step-3">
+              <span class="dl-step-num">Tahap 3</span>
+              <div class="dl-step-title">Merefleksi (Reflecting)</div>
+              <div class="construct-badge" style="background:#f6f2ff; color:#6929c4; margin-bottom: 8px;">Metakognisi & Tindak Lanjut</div>
+              <div style="font-size: 0.825rem; color: var(--on-surface);" id="dlMerefleksiContent">
+                Murid mengevaluasi pemahaman diri (Assessment as learning), menemukan bagian yang sudah dikuasai dan tantangan yang dialami, serta merumuskan strategi perbaikan belajar secara mandiri dan percaya diri.
+              </div>
+              <div style="margin-top: 10px; font-size: 0.775rem; border-top: 1px dashed var(--outline-variant); padding-top: 6px;">
+                <strong>Fokus Asesmen:</strong> Jurnal refleksi 3-2-1, penilaian diri antarteman (peer assessment), dan asesmen sumatif akhir.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Modul Ajar Generator & Preview Box -->
+          <div style="margin-top: var(--space-md); border-top: var(--rule); padding-top: var(--space-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+              <strong>Pratinjau Rencana Modul Ajar Deep Learning (Siap Unduh / Salin):</strong>
+              <button class="btn btn-secondary" onclick="copyModulAjarText()">
+                <i data-lucide="copy"></i> Salin Teks Modul
+              </button>
+            </div>
+            <textarea id="modulAjarFullText" class="text-input" style="width: 100%; height: 260px; font-family: var(--font-label); font-size: 0.8rem; line-height: 1.5; background: #ffffff;" readonly></textarea>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: ASESMEN FORMATIF (AWAL & PROSES) & SUMATIF + RAPOR                 -->
+    <!-- ========================================================================= -->
+    <section id="tab-holistic" class="tab-panel">
+      
+      <!-- Asesmen Formatif: Awal & Diferensiasi -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="user-check"></i>
+            <span>1. Asesmen Formatif Awal (Pemetaan Kesiapan Belajar & Diferensiasi)</span>
+          </div>
+          <span class="tag tag-lots">Assessment for Learning</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size: 0.85rem; color: var(--on-surface-variant); margin-bottom: var(--space-sm);">
+            Pemetaan kesiapan murid sebelum materi baru diajarkan untuk menentukan titik awal scaffolding pembelajaran sesuai panduan 2025:
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-md);">
+            <div style="background: #fff8e1; border: 1px solid #ffe082; padding: var(--space-sm) var(--space-md); border-radius: var(--rounded);">
+              <div style="font-weight: 700; color: #b78103;">Mulai Berkembang (MB)</div>
+              <div style="font-size: 0.8rem; margin: 4px 0;" id="descMbText">Murid belum mengenali konsep dasar atau memerlukan pendampingan konkret penuh.</div>
+              <div style="font-size: 0.75rem; color: #555;"><strong>Tindak Lanjut:</strong> Diberikan media benda konkret, panduan langkah per langkah, scaffolding intensif.</div>
+            </div>
+
+            <div style="background: #e8f5e9; border: 1px solid #a5d6a7; padding: var(--space-sm) var(--space-md); border-radius: var(--rounded);">
+              <div style="font-weight: 700; color: #2e7d32;">Berkembang Sesuai Harapan (BSH)</div>
+              <div style="font-size: 0.8rem; margin: 4px 0;" id="descBshText">Murid memahami konsep dasar dengan benar namun masih membutuhkan konfirmasi saat masalah kompleks.</div>
+              <div style="font-size: 0.75rem; color: #555;"><strong>Tindak Lanjut:</strong> Latihan terstruktur mandiri dengan konteks semi-konkret dan kolaborasi kelompok.</div>
+            </div>
+
+            <div style="background: #ede7f6; border: 1px solid #b39ddb; padding: var(--space-sm) var(--space-md); border-radius: var(--rounded);">
+              <div style="font-weight: 700; color: #512da8;">Sangat Berkembang (SB)</div>
+              <div style="font-size: 0.8rem; margin: 4px 0;" id="descSbText">Murid menguasai konsep secara utuh, mampu memberikan penalaran logis serta membantu rekannya.</div>
+              <div style="font-size: 0.75rem; color: #555;"><strong>Tindak Lanjut:</strong> Diberikan materi pengayaan, soal tantangan HOTS non-rutin, peran tutor sebaya.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Asesmen Formatif: Observasi Proses & Refleksi -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="check-square"></i>
+            <span>2. Asesmen Formatif Proses (Ceklis Observasi Aktivitas & Refleksi 3-2-1)</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Murid</th>
+                  <th>Partisipasi Diskusi</th>
+                  <th>Ketepatan Konsep</th>
+                  <th>Kerja Sama Tim</th>
+                  <th>Refleksi Diri</th>
+                  <th>Catatan Anekdot & Umpan Balik</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td><strong>Ahmad Dahlan</strong></td>
+                  <td><span class="tag tag-lots">Aktif Bertanya</span></td>
+                  <td><span class="tag tag-lots">Sangat Tepat</span></td>
+                  <td><span class="tag tag-lots">Memimpin</span></td>
+                  <td>Mampu evaluasi</td>
+                  <td>Sangat antusias saat investigasi kelompok, mampu menjadi tutor sebaya.</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td><strong>Siti Rahma</strong></td>
+                  <td><span class="tag tag-mots">Cukup Aktif</span></td>
+                  <td><span class="tag tag-mots">Tepat Bersyarat</span></td>
+                  <td><span class="tag tag-lots">Kooperatif</span></td>
+                  <td>Perlu pemicu</td>
+                  <td>Perlu dorongan keberanian dalam menyampaikan argumentasi lisan.</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td><strong>Budi Prakoso</strong></td>
+                  <td><span class="tag tag-mots">Pendengar Baik</span></td>
+                  <td><span class="tag tag-lots">Sangat Tepat</span></td>
+                  <td><span class="tag tag-lots">Kolaboratif</span></td>
+                  <td>Jurnal rapi</td>
+                  <td>Kemampuan analisis tertulis sangat menonjol dan sistematis.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pengolahan Nilai Sumatif & Generator Rapor Kurikulum Merdeka -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="award"></i>
+            <span>3. Pengolahan Nilai Sumatif & Generator Deskripsi Capaian Rapor (PPA 2025)</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Nama Murid</th>
+                  <th>Sumatif Bab 1</th>
+                  <th>Sumatif Bab 2</th>
+                  <th>STS</th>
+                  <th>PSAS</th>
+                  <th>Nilai Akhir (NA)</th>
+                  <th>Deskripsi Capaian Kompetensi di Rapor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Ahmad Dahlan</strong></td>
+                  <td>88</td>
+                  <td>92</td>
+                  <td>90</td>
+                  <td>94</td>
+                  <td><strong>91</strong></td>
+                  <td>Ananda menunjukkan penguasaan sangat baik dalam menganalisis materi dan mampu menyelesaikan tantangan pemecahan masalah secara mandiri.</td>
+                </tr>
+                <tr>
+                  <td><strong>Siti Rahma</strong></td>
+                  <td>76</td>
+                  <td>80</td>
+                  <td>78</td>
+                  <td>82</td>
+                  <td><strong>79</strong></td>
+                  <td>Ananda sudah memahami konsep utama dengan baik. Ananda masih perlu bimbingan dalam menyampaikan penalaran secara komprehensif.</td>
+                </tr>
+                <tr>
+                  <td><strong>Budi Prakoso</strong></td>
+                  <td>85</td>
+                  <td>88</td>
+                  <td>86</td>
+                  <td>89</td>
+                  <td><strong>87</strong></td>
+                  <td>Ananda menunjukkan pemahaman yang sangat kuat pada penguasaan konsep dan ketepatan perhitungan, serta konsisten dalam bekerja sama.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="header-desc" style="color: var(--on-surface-variant); margin-top: var(--space-xs);">
+            *Catatan Regulasi PPA 2025: Nilai formatif tidak digabungkan dengan nilai sumatif dalam penentuan Nilai Akhir Rapor. Asesmen formatif murni berfungsi sebagai umpan balik proses perbaikan belajar murid.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 6: PANDUAN PENYUSUNAN SOAL SD & TELAAH KKG                           -->
+    <!-- ========================================================================= -->
+    <section id="tab-guide" class="tab-panel">
+      
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="git-branch"></i>
+            <span>8 Tahap Baku Alur Penyusunan Naskah Soal SD (KKG SD & BSKAP 2025)</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md);">
+            
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>1. Menentukan Tujuan & Jenis Asesmen</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Tentukan fungsi formatif atau sumatif (Akhir Bab, STS, atau PSAS). Sesuaikan dengan karakteristik fase (Fase A, B, atau C).</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>2. Analisis Capaian (CP) & Tujuan (TP)</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Petakan materi esensial dari kurikulum resmi dan pastikan butir soal mengukur ketercapaian TP yang ditentukan.</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>3. Menyusun Matriks Kisi-Kisi Soal</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Susun indikator soal terukur dengan proporsi kognitif berimbang: L1 (LOTS 30%), L2 (MOTS 50%), dan L3 (HOTS 20%).</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>4. Memilih Bentuk Konstruksi Berdasarkan Fase</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Fase A (Kls 1-2): tes ringan/gambar, 3 opsi. Fase B (Kls 3-4): kombinasi 4 opsi + uraian. Fase C (Kls 5-6): lengkap dengan PG Kompleks.</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>5. Penulisan Naskah Soal & Pedoman Penskoran</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Gunakan stimulus otentik ramah anak, bahasa komunikatif, kunci jawaban pasti, dan rubrik analitis untuk soal uraian.</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>6. Review & Telaah Soal (Validasi 3 Aspek)</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Verifikasi kelaikan soal bersama rekan guru/KKG meliputi aspek Materi, Konstruksi kalimat/opsi, dan Bahasa baku EYD.</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>7. Perakitan & Pelaksanaan Asesmen</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Urutkan soal dari mudah ke sukar. Lakukan dalam suasana bebas tekanan, nyaman, dan mendukung bagi peserta didik.</p>
+            </div>
+
+            <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+              <strong>8. Analisis Hasil & Umpan Balik Konstruktif</strong>
+              <p style="font-size: 0.8rem; color: var(--on-surface-variant);">Olah nilai dengan pembobotan proporsional dan sampaikan umpan balik perbaikan untuk perencanaan pembelajaran selanjutnya.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist Telaah KKG -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="check-circle"></i>
+            <span>Instrumen Lembar Telaah Butir Soal (Validasi Rekan Sejawat / KKG)</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Aspek Penelaahan</th>
+                  <th>Kriteria Telaah</th>
+                  <th>Status Standar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td><strong>Materi</strong></td>
+                  <td>Soal sesuai dengan indikator TP dan materi esensial fase yang bersangkutan</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td><strong>Materi</strong></td>
+                  <td>Materi yang diujikan relevan dengan kehidupan sehari-hari anak SD</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td><strong>Konstruksi</strong></td>
+                  <td>Pokok soal dirumuskan tegas, jelas, dan tidak menimbulkan penafsiran ganda</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td><strong>Konstruksi</strong></td>
+                  <td>Pilihan jawaban homogen, logis, dan panjang opsi relatif seimbang</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td><strong>Konstruksi</strong></td>
+                  <td>Pilihan jawaban tidak menggunakan pernyataan "semua jawaban di atas benar/salah"</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td><strong>Bahasa</strong></td>
+                  <td>Menggunakan bahasa Indonesia yang baik, santun, dan komunikatif sesuai usia murid</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td><strong>Bahasa</strong></td>
+                  <td>Tidak menggunakan bahasa yang berlaku setempat/bias tabu jika soal skala nasional</td>
+                  <td><span class="tag tag-lots">Terpenuhi</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- PRINT ONLY: SEPARATE ANSWER SHEET (LJS) -->
+  <div id="printAnswerSheetSection" class="print-only page-break">
+    <div class="official-kop">
+      <div class="kop-instansi">LEMBAR JAWABAN SUMATIF (LJS)</div>
+      <div class="kop-sekolah" id="printLjsSchoolName">SD NEGERI CONTOH MERDEKA</div>
+      <div class="kop-detail">PENILAIAN SUMATIF AKHIR SEMESTER • TAHUN AJARAN 2025/2026</div>
+    </div>
+    <div class="exam-identity-grid">
+      <div>Nama Siswa: ___________________________</div>
+      <div>Kelas / No: _______ / _______</div>
+      <div>Mata Pelajaran: <span id="ljsSubject">IPAS</span></div>
+      <div>Hari/Tanggal: ___________________________</div>
+    </div>
+    
+    <div style="font-size: 0.85rem; margin-top: 10px;">
+      <h4>BAGIAN I: PILIHAN GANDA</h4>
+      <div id="ljsPgGrid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 10px 0;">
+        <!-- Filled dynamically -->
+      </div>
+
+      <h4 style="margin-top: 20px;">BAGIAN II: ISIAN SINGKAT / URAIAN</h4>
+      <div style="border: 1px solid #000; height: 350px; padding: 10px; font-size: 0.8rem; color: #555;">
+        Ruang Pengerjaan Isian dan Uraian Siswa:
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="custom-toast" id="appToast">
+    <i data-lucide="check" style="color: #42be65;"></i>
+    <span id="toastMsg">Operasi berhasil disimpan.</span>
+  </div>
+
+</div>
+
+<!-- MANDATORY NOTEBOOK API SHIM -->
+<api-shim></api-shim>
+
+<script>
+/**
+ * SiPerAs-SD: Educational Assessment & Deep Learning Planning Platform for Primary School (Grades 1-6)
+ * Complete implementation complying with 2025 guidelines and strict defensive JavaScript.
+ */
+
+// =========================================================================
+// 1. DATA REPOSITORIES: PRESETS, CURRICULUM, AND QUESTIONS PER GRADE (1-6)
+// =========================================================================
+
+const GRADE_STANDARDS = {
+  1: { phase: 'A', total: 20, pg: 12, pgk: 0, matching: 3, isian: 5, uraian: 0, options: 3, font: '14pt', lots: 7, mots: 10, hots: 3 },
+  2: { phase: 'A', total: 25, pg: 15, pgk: 0, matching: 4, isian: 6, uraian: 0, options: 3, font: '14pt', lots: 8, mots: 13, hots: 4 },
+  3: { phase: 'B', total: 30, pg: 15, pgk: 0, matching: 5, isian: 7, uraian: 3, options: 4, font: '11pt', lots: 9, mots: 15, hots: 6 },
+  4: { phase: 'B', total: 35, pg: 15, pgk: 5, matching: 5, isian: 7, uraian: 3, options: 4, font: '11pt', lots: 11, mots: 17, hots: 7 },
+  5: { phase: 'C', total: 40, pg: 15, pgk: 10, matching: 5, isian: 6, uraian: 4, options: 4, font: '11pt', lots: 12, mots: 20, hots: 8 },
+  6: { phase: 'C', total: 40, pg: 15, pgk: 10, matching: 5, isian: 6, uraian: 4, options: 4, font: '11pt', lots: 12, mots: 20, hots: 8 }
+};
+
+// Rich subject data repository per grade
+const CURRICULUM_DATA = {
+  // KELAS 4 (Default Active Demonstration)
+  4: {
+    ipas: {
+      topic: "Bagian Tubuh Tumbuhan, Fotosintesis, & Wujud Zat",
+      cp: "Murid menganalisis hubungan antara bentuk serta fungsi bagian tubuh tumbuhan (daun, batang, akar) dan proses fotosintesis; memahami wujud zat dan perubahannya dalam kehidupan sehari-hari.",
+      tp: "1. Menganalisis fungsi klorofil dan sinar matahari dalam proses fotosintesis.\n2. Menyelidiki peran akar dan batang dalam transportasi air dan zat hara.\n3. Mengidentifikasi perubahan wujud zat (mencair, membeku, menguap) dalam siklus alam.",
+      pedagogis: "Pembelajaran Berbasis Masalah (PBL) dan inkuiri terbimbing penyelidikan tanaman seledri dalam air berwarna serta percobaan fotosintesis sederhana.",
+      kemitraan: "Kerja sama murid dalam tim riset mini, pengamatan kebun sekolah, serta wawancara dengan petugas kebersihan tentang pengomposan daun.",
+      lingkungan: "Laboratorium alam kebun sekolah, pojok literasi sains, dan papan pajang hasil karya siswa yang saling mengapresiasi.",
+      digital: "Simulasi interaktif proses fotosintesis, video mikroskopis stomata daun, dan asesmen kuis digital kelas.",
+      memahami: "Murid mengamati tanaman layu vs tanaman segar melalui gambar/benda nyata, menanyakan mengapa tumbuhan butuh cahaya dan air, serta mengonstruksi alur fotosintesis.",
+      mengaplikasi: "Murid melakukan percobaan transportasi air pada batang seledri berpewarna, mencatat waktu penyerapan, dan mengaitkannya dengan fungsi pembuluh xilem pada tumbuhan tinggi.",
+      merefleksi: "Murid mengisi jurnal 3-2-1: 3 hal baru yang dipahami (fungsi klorofil, oksigen, stomata), 2 hal yang masih ingin dieksplorasi (tumbuhan karnivora), dan 1 refleksi manfaat tumbuhan bagi manusia.",
+      questions: [
+        // PG Sederhana (15 items)
+        { num: 1, type: 'pg', cog: 'LOTS', cLevel: 'C1', stimulus: 'Perhatikan fungsi organ tumbuhan berikut!', q: 'Bagian tumbuhan yang berfungsi menyerap air dan mineral dari dalam tanah adalah ....', options: ['A. Daun', 'B. Bunga', 'C. Batang', 'D. Akar'], key: 'D', weight: 1, explanation: 'Akar berfungsi menyerap air dan zat hara terlarut dari tanah.' },
+        { num: 2, type: 'pg', cog: 'LOTS', cLevel: 'C1', stimulus: '', q: 'Zat hijau daun yang berfungsi menangkap energi cahaya matahari saat fotosintesis disebut ....', options: ['A. Klorofil', 'B. Stomata', 'C. Floem', 'D. Xilem'], key: 'A', weight: 1, explanation: 'Klorofil adalah pigmen hijau penangkap foton sinar matahari.' },
+        { num: 3, type: 'pg', cog: 'LOTS', cLevel: 'C2', stimulus: '', q: 'Gas yang diserap oleh tumbuhan hijau dari udara saat melakukan proses fotosintesis adalah ....', options: ['A. Oksigen', 'B. Karbon monoksida', 'C. Karbon dioksida', 'D. Nitrogen'], key: 'C', weight: 1, explanation: 'Tumbuhan menyerap karbon dioksida (CO2) sebagai bahan fotosintesis.' },
+        { num: 4, type: 'pg', cog: 'LOTS', cLevel: 'C2', stimulus: '', q: 'Hasil utama proses fotosintesis yang dimanfaatkan makhluk hidup untuk bernapas adalah ....', options: ['A. Karbon dioksida', 'B. Oksigen', 'C. Air tanah', 'D. Cahaya'], key: 'B', weight: 1, explanation: 'Fotosintesis menghasilkan glukosa dan melepaskan gas oksigen (O2).' },
+        { num: 5, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: 'Andi menaruh tanaman pot di dalam kardus tertutup rapat tanpa lubang selama seminggu.', q: 'Perkiraan peristiwa yang paling tepat terjadi pada tanaman Andi adalah ....', options: ['A. Tanaman tumbuh semakin subur dan hijau', 'B. Daun menguning dan layu karena kurang cahaya matahari', 'C. Tanaman berbuah sangat lebat', 'D. Batang tanaman bertambah besar dengan cepat'], key: 'B', weight: 1, explanation: 'Tanpa sinar matahari, tumbuhan tidak bisa berfotosintesis sehingga klorofil rusak.' },
+        { num: 6, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Proses perubahan wujud benda dari padat menjadi cair akibat pemanasan disebut ....', options: ['A. Membeku', 'B. Menguap', 'C. Mencair', 'D. Menyublim'], key: 'C', weight: 1, explanation: 'Mencair adalah peristiwa perubahan wujud padat ke cair saat menerima kalor.' },
+        { num: 7, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: 'Ibu menjemur pakaian basah di bawah terik sinar matahari hingga menjadi kering.', q: 'Perubahan wujud zat yang terjadi pada air pada pakaian basah tersebut adalah ....', options: ['A. Mengembun', 'B. Menguap', 'C. Mengkristal', 'D. Mencair'], key: 'B', weight: 1, explanation: 'Air berubah menjadi gas/uap air ke atmosfer (menguap).' },
+        { num: 8, type: 'pg', cog: 'MOTS', cLevel: 'C4', stimulus: 'Seorang siswa mengamati dua gelas air: Gelas A ditaruh di tempat terbuka terik matahari, Gelas B ditutup rapat di dalam kamar.', q: 'Setelah 2 hari volume air gelas A berkurang drastis, sedangkan gelas B tetap. Kesimpulan yang tepat adalah ....', options: ['A. Suhu dingin mempercepat penguapan air', 'B. Panas matahari dan udara terbuka mempercepat proses penguapan', 'C. Air gelas A meresap ke dalam dinding kaca', 'D. Gelas B mengalami pembekuan'], key: 'B', weight: 1, explanation: 'Penguapan dipercepat oleh luas permukaan, sirkulasi udara, dan kenaikan temperatur.' },
+        { num: 9, type: 'pg', cog: 'MOTS', cLevel: 'C4', stimulus: '', q: 'Fungsi lubang kecil di permukaan bawah daun (stomata) adalah sebagai tempat ....', options: ['A. Menyerap air dari dalam batang', 'B. Pertukaran gas oksigen dan karbon dioksida', 'C. Penopang bunga agar tidak patah', 'D. Penyimpanan cadangan makanan umbi'], key: 'B', weight: 1, explanation: 'Stomata berfungsi sebagai organ respirasi dan transpirasi (pertukaran gas).' },
+        { num: 10, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Peristiwa terbentuknya titik-titik air pada bagian luar gelas yang berisi es batu disebut ....', options: ['A. Menguap', 'B. Menyublim', 'C. Mengembun', 'D. Mencair'], key: 'C', weight: 1, explanation: 'Uap air di sekitar gelas mengalami pendinginan saat menyentuh dinding gelas dingin.' },
+        { num: 11, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Batang seledri yang direndam dalam air berwarna merah selama 4 jam akan menampakkan garis-garis merah pada batangnya. Hal ini membuktikan bahwa ....', options: ['A. Batang berfungsi menyerap cahaya', 'B. Batang mengangkut cairan dari akar menuju daun', 'C. Daun seledri memproduksi zat pewarna', 'D. Akar seledri berubah warna menjadi merah'], key: 'B', weight: 1, explanation: 'Jaringan xilem pada batang mengangkut air dan zat terlarut ke daun.' },
+        { num: 12, type: 'pg', cog: 'MOTS', cLevel: 'C4', stimulus: '', q: 'Tumbuhan kaktus memiliki daun berbentuk duri. Modifikasi bentuk daun ini bertujuan untuk ....', options: ['A. Mempercepat fotosintesis', 'B. Mengurangi penguapan air di lingkungan kering', 'C. Menarik serangga penyerbuk', 'D. Menampung air hujan sebanyak-banyaknya'], key: 'B', weight: 1, explanation: 'Daun jarum kaktus meminimalkan transpirasi di habitat gurun/gersang.' },
+        { num: 13, type: 'pg', cog: 'HOTS', cLevel: 'C5', stimulus: 'Hutan di lereng bukit ditebangi secara liar hingga gundul. Saat musim hujan tiba terjadi longsor.', q: 'Hubungan paling tepat antara penebangan tumbuhan di hutan dengan peristiwa longsor tersebut adalah ....', options: ['A. Akar pepohonan tidak lagi mengikat partikel tanah dan menahan laju air', 'B. Hutan gundul menyebabkan proses fotosintesis menghasilkan air berlebih', 'C. Hewan hutan memindahkan tanah ke dasar lembah', 'D. Batang pohon yang hilang menyebabkan udara menjadi sangat dingin'], key: 'A', weight: 1, explanation: 'Sistem perakaran tanaman berfungsi menjaga agregat tanah dan porositas penyerapan air.' },
+        { num: 14, type: 'pg', cog: 'HOTS', cLevel: 'C5', stimulus: '', q: 'Jika semua tumbuhan hijau di suatu wilayah punah, dampak paling berbahaya bagi rantai makanan adalah ....', options: ['A. Hewan herbivora bertambah banyak populasinya', 'B. Konsumen tingkat satu dan berikutnya kehilangan sumber energi dan oksigen', 'C. Udara akan dipenuhi gas oksigen yang menyengat', 'D. Hewan karnivora berubah menjadi produsen'], key: 'B', weight: 1, explanation: 'Tumbuhan adalah produsen primer pensuplai energi dan oksigen ekosistem.' },
+        { num: 15, type: 'pg', cog: 'HOTS', cLevel: 'C5', stimulus: '', q: 'Ketika menyalakan lilin, terjadi dua jenis perubahan sekaligus. Lilin yang meleleh di sekitar sumbu dan lilin yang habis terbakar menunjukkan ....', options: ['A. Keduanya adalah perubahan kimia murni', 'B. Meleleh adalah perubahan fisika, sedangkan pembakaran sumbu adalah perubahan kimia', 'C. Meleleh adalah perubahan kimia, sedangkan pembakaran adalah perubahan fisika', 'D. Lilin tidak mengalami perubahan wujud apa pun'], key: 'B', weight: 1, explanation: 'Pelelehan parafin adalah fisika (dapat memadat kembali), pembakaran menghasilkan zat baru (CO2 & jelaga).' },
+
+        // PG Kompleks / MCMA (5 items)
+        {
+          num: 16, type: 'pgk', cog: 'MOTS', cLevel: 'C4', stimulus: 'Berikut adalah komponen yang dibutuhkan dan dihasilkan pada fotosintesis.',
+          q: 'Pilihlah DUA pernyataan yang BENAR mengenai proses fotosintesis tumbuhan!',
+          options: [
+            '[ ] Membutuhkan gas karbon dioksida dari udara',
+            '[ ] Membutuhkan oksigen dari tanah',
+            '[ ] Menghasilkan karbohidrat (glukosa) sebagai cadangan makanan',
+            '[ ] Hanya dapat berlangsung pada malam hari yang gelap gulita'
+          ],
+          correctIndexes: [0, 2],
+          weight: 2,
+          explanation: 'Pilihan 1 dan 3 benar. Tumbuhan menyerap CO2 dan menghasilkan glukosa.'
+        },
+        {
+          num: 17, type: 'pgk', cog: 'HOTS', cLevel: 'C5', stimulus: 'Tabel Pernyataan Perubahan Wujud Zat.',
+          q: 'Tentukan BENAR (B) atau SALAH (S) untuk setiap pernyataan berikut!',
+          isTableTF: true,
+          statements: [
+            { text: 'Kapur barus yang mengecil di dalam lemari merupakan contoh peristiwa menyublim.', ans: 'Benar' },
+            { text: 'Membuat es batu di dalam freezer merupakan contoh proses mencair.', ans: 'Salah' },
+            { text: 'Titik embun di daun rumput pada pagi hari berasal dari uap air udara yang mendingin.', ans: 'Benar' }
+          ],
+          weight: 2,
+          explanation: 'Kapur barus menyublim (B), es membeku bukan mencair (S), embun terbentuk karena kondensasi uap (B).'
+        },
+        {
+          num: 18, type: 'pgk', cog: 'MOTS', cLevel: 'C3', stimulus: '',
+          q: 'Pilihlah DUA bagian tubuh tumbuhan yang terlibat langsung dalam penyerapan dan transportasi air!',
+          options: [
+            '[ ] Akar dengan bulu-bulu akar',
+            '[ ] Mahkota bunga yang berwarna cerah',
+            '[ ] Pembuluh xilem pada batang',
+            '[ ] Biji berkeping dua'
+          ],
+          correctIndexes: [0, 2],
+          weight: 2,
+          explanation: 'Akar menyerap dan xilem mendistribusikan air ke seluruh tubuh.'
+        },
+        {
+          num: 19, type: 'pgk', cog: 'MOTS', cLevel: 'C4', stimulus: 'Perhatikan kondisi tanaman di tempat gelap dan terang.',
+          q: 'Tentukan BENAR (B) atau SALAH (S) untuk pernyataan di bawah ini!',
+          isTableTF: true,
+          statements: [
+            { text: 'Tanaman di tempat terang memiliki daun lebih hijau karena klorofil berfungsi optimal.', ans: 'Benar' },
+            { text: 'Fotosintesis menghasilkan gas karbon monoksida yang meracuni lingkungan.', ans: 'Salah' },
+            { text: 'Air yang diserap akar diangkut ke daun untuk bahan baku fotosintesis.', ans: 'Benar' }
+          ],
+          weight: 2,
+          explanation: 'Klorofil optimal dengan sinar (B), fotosintesis menghasilkan oksigen bukan CO (S), air adalah reaktan utama (B).'
+        },
+        {
+          num: 20, type: 'pgk', cog: 'HOTS', cLevel: 'C5', stimulus: '',
+          q: 'Manakah DUA tindakan nyata berikut yang mencerminkan upaya pelestarian tumbuhan hijau di lingkungan sekolah?',
+          options: [
+            '[ ] Menyiram tanaman di taman sekolah secara rutin dan memberi pupuk kompos',
+            '[ ] Memetik bunga dan daun yang sedang mekar untuk hiasan meja',
+            '[ ] Membuat apotek hidup dan menanam bibit pohon pada hari bumi',
+            '[ ] Membakar sampah dedaunan kering tepat di bawah pohon besar'
+          ],
+          correctIndexes: [0, 2],
+          weight: 2,
+          explanation: 'Menyiram dan membuat apotek hidup mendukung konservasi tanaman hidup.'
+        },
+
+        // Menjodohkan (5 items)
+        {
+          num: 21, type: 'matching', cog: 'LOTS', cLevel: 'C2',
+          stimulus: 'Jodohkan istilah organ tumbuhan berikut dengan fungsi utamanya!',
+          pairs: [
+            { premis: 'Akar', respon: 'Menyerap air & mineral dari dalam tanah' },
+            { premis: 'Batang', respon: 'Menyalurkan air & menopang tubuh tanaman' },
+            { premis: 'Daun', respon: 'Tempat utama berlangsungnya fotosintesis' }
+          ],
+          weight: 2,
+          explanation: 'Akar penyerap, batang penyalur, daun produsen fotosintesis.'
+        },
+        {
+          num: 22, type: 'matching', cog: 'MOTS', cLevel: 'C3',
+          stimulus: 'Pasangkan contoh peristiwa sehari-hari dengan perubahan wujud zat yang terjadi!',
+          pairs: [
+            { premis: 'Mentega dipanaskan di wajan', respon: 'Mencair' },
+            { premis: 'Air dimasukkan ke dalam freezer kulkas', respon: 'Membeku' },
+            { premis: 'Air yang direbus mendidih di atas kompor', respon: 'Menguap' }
+          ],
+          weight: 2,
+          explanation: 'Mentega mencair (padat->cair), air es membeku (cair->padat), air rebus menguap (cair->gas).'
+        },
+        {
+          num: 23, type: 'matching', cog: 'MOTS', cLevel: 'C4',
+          stimulus: 'Jodohkan bahan/hasil proses fotosintesis berikut!',
+          pairs: [
+            { premis: 'Bahan baku dari udara', respon: 'Karbon dioksida (CO2)' },
+            { premis: 'Sumber energi alami', respon: 'Sinar matahari' },
+            { premis: 'Gas hasil yang dilepaskan', respon: 'Oksigen (O2)' }
+          ],
+          weight: 2,
+          explanation: 'Bahan udara: CO2; energi: sinar matahari; gas lepas: O2.'
+        },
+        {
+          num: 24, type: 'matching', cog: 'LOTS', cLevel: 'C2',
+          stimulus: 'Pasangkan jenis wujud benda dengan sifat partikel bentuk dan volumenya!',
+          pairs: [
+            { premis: 'Zat Padat', respon: 'Bentuk tetap dan volume tetap' },
+            { premis: 'Zat Cair', respon: 'Bentuk berubah mengikuti wadah, volume tetap' },
+            { premis: 'Zat Gas', respon: 'Bentuk dan volume berubah memenuhi ruangan' }
+          ],
+          weight: 2,
+          explanation: 'Ciri fisik 3 wujud materi dasar.'
+        },
+        {
+          num: 25, type: 'matching', cog: 'MOTS', cLevel: 'C3',
+          stimulus: 'Jodohkan bagian bunga dengan perannya dalam perkembangbiakan tumbuhan!',
+          pairs: [
+            { premis: 'Benang sari', respon: 'Alat kelamin jantan bunga' },
+            { premis: 'Putik', respon: 'Alat kelamin betina bunga' },
+            { premis: 'Mahkota bunga', respon: 'Menarik perhatian serangga penyerbuk' }
+          ],
+          weight: 2,
+          explanation: 'Organ reproduksi generatif angiospermae.'
+        },
+
+        // Isian Singkat (7 items)
+        { num: 26, type: 'isian', cog: 'LOTS', cLevel: 'C1', stimulus: '', q: 'Organ tumbuhan tempat klorofil terkonsentrasi dan menjadi dapur fotosintesis adalah ....', key: 'Daun', weight: 2, explanation: 'Daun mengandung jaringan palisade kaya kloroplas.' },
+        { num: 27, type: 'isian', cog: 'LOTS', cLevel: 'C2', stimulus: '', q: 'Cairan penghasil energi pada fotosintesis yang diedarkan ke seluruh tubuh tanaman berbentuk ....', key: 'Glukosa / Gula / Karbohidrat', weight: 2, explanation: 'Glukosa adalah molekul gula sederhana hasil asimilasi karbon.' },
+        { num: 28, type: 'isian', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Benda padat yang mengalami perubahan wujud menjadi gas tanpa melalui fase cair disebut peristiwa ....', key: 'Menyublim', weight: 2, explanation: 'Sublimasi adalah transisi fasa padat langsung ke gas.' },
+        { num: 29, type: 'isian', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Bulu-bulu akar pada tumbuhan berfungsi untuk memperluas bidang penyerapan .... dari dalam tanah.', key: 'Air dan mineral / Air', weight: 2, explanation: 'Rambut akar memperluas area absorpsi air dan hara.' },
+        { num: 30, type: 'isian', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Saat bernapas pada malam hari, tumbuhan menyerap gas .... dan melepaskan gas karbon dioksida.', key: 'Oksigen / O2', weight: 2, explanation: 'Respirasi seluler aerobik tumbuhan membutuhkan O2.' },
+        { num: 31, type: 'isian', cog: 'MOTS', cLevel: 'C4', stimulus: '', q: 'Es batu yang diletakkan di piring terbuka lama-kelamaan menjadi air karena menyerap .... dari lingkungan.', key: 'Kalor / Panas', weight: 2, explanation: 'Perubahan fasa endotermik membutuhkan penyerapan kalor.' },
+        { num: 32, type: 'isian', cog: 'HOTS', cLevel: 'C5', stimulus: '', q: 'Peristiwa jatuhnya serbuk sari ke kepala putik pada bunga disebut peristiwa ....', key: 'Penyerbukan / Polinasi', weight: 2, explanation: 'Penyerbukan mendahului pembuahan.' },
+
+        // Uraian / Esai (3 items)
+        {
+          num: 33, type: 'uraian', cog: 'MOTS', cLevel: 'C4',
+          stimulus: 'Tumbuhan hijau sering disebut sebagai produsen utama di muka bumi.',
+          q: 'Jelaskan mengapa tumbuhan hijau disebut sebagai produsen dan apa yang akan terjadi pada hewan herbivora jika populasi tumbuhan berkurang drastis!',
+          weight: 4,
+          rubric: [
+            { score: 4, criteria: 'Menjelaskan konsep produsen (membuat makanan sendiri lewat fotosintesis) dan menganalisis dampak kepunahan herbivora secara logis dan runtut.' },
+            { score: 3, criteria: 'Menjelaskan arti produsen dengan tepat, dampak pada herbivora disebutkan tapi penjelasannya kurang mendalam.' },
+            { score: 2, criteria: 'Hanya menyebutkan arti produsen atau dampak pada herbivora saja.' },
+            { score: 1, criteria: 'Jawaban kurang tepat atau sangat minim relevansinya.' }
+          ],
+          keyModel: 'Tumbuhan disebut produsen karena mampu memproduksi makanan sendiri melalui fotosintesis menggunakan energi matahari. Jika tumbuhan punah, hewan herbivora akan kelaparan, mati, dan populasinya menurun tajam karena kehilangan sumber makanan utama.'
+        },
+        {
+          num: 34, type: 'uraian', cog: 'HOTS', cLevel: 'C5',
+          stimulus: 'Dina melakukan pengamatan terhadap es batu di dalam gelas kaca. Ia melihat bagian luar gelas menjadi basah dan berair, padahal gelas tidak bocor.',
+          q: 'Jelaskan mengapa bagian luar gelas kaca tersebut bisa basah berair! Dari mana asal air tersebut dan proses perubahan wujud apa yang terjadi?',
+          weight: 4,
+          rubric: [
+            { score: 4, criteria: 'Menjelaskan peristiwa mengembun (kondensasi) dengan akurat, menyebutkan bahwa air berasal dari uap air di udara luar yang melepaskan kalor karena dinginnya dinding gelas.' },
+            { score: 3, criteria: 'Menyebutkan proses mengembun dan asalnya dari udara luar, tetapi penjelasan pelepasan kalor belum lengkap.' },
+            { score: 2, criteria: 'Hanya menyebutkan istilah mengembun tanpa menjelaskan asal uap air.' },
+            { score: 1, criteria: 'Menyatakan air merembes dari es batu di dalam gelas (miskonsepsi).' }
+          ],
+          keyModel: 'Air di bagian luar gelas berasal dari uap air di udara sekitar gelas, bukan bocor dari dalam. Ketika uap air hangat menyentuh permukaan gelas yang dingin oleh es, uap air tersebut melepaskan kalor dan berubah wujud menjadi tetes-tetes air cair (proses mengembun atau kondensasi).'
+        },
+        {
+          num: 35, type: 'uraian', cog: 'HOTS', cLevel: 'C6',
+          stimulus: 'Disekitar halaman rumah Budi banyak sampah daun kering dan sinar matahari yang cukup panas. Budi ingin menanam sayur kangkung bersama keluarganya.',
+          q: 'Rancanglah 3 langkah kreatif dan ramah lingkungan yang dapat dilakukan Budi dan keluarganya dengan memanfaatkan daun kering dan sinar matahari tersebut agar sayur kangkung tumbuh subur!',
+          weight: 4,
+          rubric: [
+            { score: 4, criteria: 'Mengusulkan 3 langkah konkret, aplikatif, dan logis (misal: mengolah daun jadi kompos, menaruh pot di tempat berjemur teratur, penyiraman yang tepat).' },
+            { score: 3, criteria: 'Mengusulkan 2-3 langkah tetapi salah satunya kurang aplikatif.' },
+            { score: 2, criteria: 'Mengusulkan 1 langkah yang masuk akal.' },
+            { score: 1, criteria: 'Saran tidak berkaitan dengan daun kering atau sinar matahari.' }
+          ],
+          keyModel: '1) Mengolah daun kering menjadi pupuk kompos organik sebagai nutrisi tanah kangkung; 2) Menempatkan wadah tanam kangkung di area yang mendapatkan sinar matahari pagi (minimal 6 jam) untuk memaksimalkan fotosintesis; 3) Menggunakan sisa daun kering sebagai mulsa di atas permukaan tanah pot untuk menjaga kelembapan tanah agar tidak cepat mengering.'
+        }
+      ]
+    },
+    indonesia: {
+      topic: "Teks Deskripsi dan Kalimat Efektif",
+      cp: "Murid mampu memahami ide pokok dan pendukung, menulis teks deskripsi sederhana dengan kalimat efektif, kaidah kebahasaan dan kosakata denotatif.",
+      tp: "1. Menentukan ide pokok dan gagasan pendukung pada teks deskripsi.\n2. Menuliskan teks deskripsi lingkungan sekolah dengan kalimat runtut.\n3. Menggunakan kata sifat dan kalimat denotatif secara cermat.",
+      pedagogis: "Pedagogi genre (BKoF, MoT, JCoT, ICoT) dan pembelajaran mendalam.",
+      kemitraan: "Diskusi berpasangan, penyuntingan tulisan antarteman, membaca karya di depan kelas.",
+      lingkungan: "Ruang baca kelas, taman sekolah sebagai objek pengamatan indrawi nyata.",
+      digital: "Pemanfaatan audio visual pembacaan teks deskripsi dan kuis kosakata digital.",
+      memahami: "Mengenali ciri teks deskripsi melalui pengamatan objek di sekitarnya.",
+      mengaplikasi: "Menulis draf teks deskripsi mengenai tempat favorit di sekolah.",
+      merefleksi: "Menilai kelengkapan struktur deskripsi sendiri dan memberikan masukan santun ke teman."
+    },
+    matematika: {
+      topic: "Pecahan Senilai, Operasi Bilangan Cacah s.d. 10.000",
+      cp: "Murid memiliki intuisi bilangan cacah sampai 10.000, membandingkan pecahan berpenyebut sama dan pecahan senilai.",
+      tp: "1. Mengurutkan pecahan dan menentukan pecahan senilai dengan model visual.\n2. Menyelesaikan masalah penjumlahan dan pengurangan bilangan cacah konteks belanja rutin.",
+      pedagogis: "Pendekatan Realistic Mathematics Education (RME) dengan manipulatif konkret.",
+      kemitraan: "Permainan belanja pasar mini di kelas bersama kelompok.",
+      lingkungan: "Sudut matematika dengan benda konkret seperti balok pecahan dan timbangan.",
+      digital: "Penggunaan visualizer interaktif pecahan lingkaran dan bar.",
+      memahami: "Memahami konsep pecahan sebagai bagian dari keseluruhan lewat pemotongan kue/kertas.",
+      mengaplikasi: "Membuat resep kue dengan takaran pecahan yang senilai.",
+      merefleksi: "Menyimpulkan strategi paling cepat membandingkan pecahan."
+    }
+  },
+
+  // KELAS 1 (Fase A - Format 3 Pilihan A-B-C, Arial 14pt, 20 Soal)
+  1: {
+    indonesia: {
+      topic: "Mengenal Huruf, Suku Kata, dan Benda di Rumah",
+      cp: "Murid mampu membaca kata-kata sederhana dengan fasih dari bacaan/tayangan tentang diri, keluarga, dan lingkungan sekitar; menulis permulaan dengan benar.",
+      tp: "1. Mengenali huruf vokal dan konsonan pada kata sederhana.\n2. Membaca suku kata bergambar (ba-bi-bu-be-bo).\n3. Menuliskan nama benda di rumah dengan rapi.",
+      pedagogis: "Metode fonik interaktif, bercerita dengan buku bergambar besar (Big Book), dan bernyanyi riang.",
+      kemitraan: "Melibatkan orang tua dalam mendampingi kebiasaan membaca nyaring 15 menit sebelum tidur.",
+      lingkungan: "Kelas kaya teks (label huruf dan nama benda di setiap sudut), sudut bermain peran.",
+      digital: "Aplikasi permainan suara huruf dan lagu abjad ramah anak.",
+      memahami: "Menyanyikan lagu abjad dan meraba kartu huruf timbul.",
+      mengaplikasi: "Menyusun kartu huruf menjadi nama sendiri dan nama benda mainan.",
+      merefleksi: "Menunjukkan huruf yang paling disukai dan paling mudah diingat.",
+      questions: [
+        { num: 1, type: 'pg', cog: 'LOTS', cLevel: 'C1', stimulus: 'Perhatikan gambar bola!', q: 'Kata "bola" diawali dengan huruf ....', options: ['A. b', 'B. d', 'C. p'], key: 'A', weight: 1, explanation: 'Bola diawali huruf b.' },
+        { num: 2, type: 'pg', cog: 'LOTS', cLevel: 'C1', stimulus: '', q: 'Huruf vokal pada kata "buku" adalah ....', options: ['A. b dan k', 'B. u dan u', 'C. b dan u'], key: 'B', weight: 1, explanation: 'Vokal adalah a, i, u, e, o. Pada buku vokalnya u.' },
+        { num: 3, type: 'pg', cog: 'LOTS', cLevel: 'C1', stimulus: '', q: 'Benda yang digunakan untuk menulis di buku adalah ....', options: ['A. Pensil', 'B. Sepatu', 'C. Sendok'], key: 'A', weight: 1, explanation: 'Pensil adalah alat tulis.' },
+        { num: 4, type: 'pg', cog: 'LOTS', cLevel: 'C2', stimulus: 'Mata saya ada ....', q: 'Jumlah mata pada tubuh manusia adalah ....', options: ['A. Satu', 'B. Dua', 'C. Tiga'], key: 'B', weight: 1, explanation: 'Manusia memiliki sepasang (dua) mata.' },
+        { num: 5, type: 'pg', cog: 'MOTS', cLevel: 'C2', stimulus: '', q: 'Bunyi suara hewan kucing adalah ....', options: ['A. Kwek kwek', 'B. Meong meong', 'C. Mooo'], key: 'B', weight: 1, explanation: 'Kucing bersuara meong.' },
+        { num: 6, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Sebelum makan kita harus mencuci tangan memakai ....', options: ['A. Sabun dan air', 'B. Minyak', 'C. Pasir'], key: 'A', weight: 1, explanation: 'Sabun dan air membersihkan kuman.' },
+        { num: 7, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Beni ingin meminjam pensil Edo. Beni sebaiknya berkata ....', options: ['A. Berikan pensilmu cepat!', 'B. Bolehkah saya pinjam pensilmu, Edo?', 'C. Ini pensilku sekarang!'], key: 'B', weight: 1, explanation: 'Meminjam dengan santun memakai kata tolong/bolehkah.' },
+        { num: 8, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Ketika diberi hadiah oleh guru, kita mengucapkan ....', options: ['A. Maaf', 'B. Terima kasih', 'C. Permisi'], key: 'B', weight: 1, explanation: 'Ucapan terima kasih saat menerima kebaikan.' },
+        { num: 9, type: 'pg', cog: 'MOTS', cLevel: 'C3', stimulus: 'Ibu sedang memasak di ....', q: 'Tempat untuk memasak makanan di rumah adalah ....', options: ['A. Kamar tidur', 'B. Dapur', 'C. Halaman'], key: 'B', weight: 1, explanation: 'Memasak dilakukan di dapur.' },
+        { num: 10, type: 'pg', cog: 'MOTS', cLevel: 'C4', stimulus: '', q: 'Huruf-huruf k - u - b - u jika disusun menjadi kata yang benar adalah ....', options: ['A. Baku', 'B. Buku', 'C. Kuku'], key: 'B', weight: 1, explanation: 'Susunan huruf bermakna adalah buku.' },
+        { num: 11, type: 'pg', cog: 'HOTS', cLevel: 'C5', stimulus: 'Siti melihat temannya terjatuh di halaman sekolah.', q: 'Sikap baik yang sebaiknya Siti lakukan adalah ....', options: ['A. Menertawakan temannya', 'B. Menolong dan membantunya berdiri', 'C. Membiarkannya menangis sendirian'], key: 'B', weight: 1, explanation: 'Sikap empati dan tolong-menolong.' },
+        { num: 12, type: 'pg', cog: 'HOTS', cLevel: 'C5', stimulus: '', q: 'Agar tubuh kita tetap sehat dan kuat, kita harus rajin ....', options: ['A. Tidur larut malam', 'B. Berolahraga dan makan makanan bergizi', 'C. Bermain game sepanjang hari'], key: 'B', weight: 1, explanation: 'Olahraga dan gizi sehat menjaga kesehatan.' },
+
+        // Menjodohkan (3 items)
+        {
+          num: 13, type: 'matching', cog: 'LOTS', cLevel: 'C1',
+          stimulus: 'Tarik garis menjodohkan nama benda dengan kegunaannya!',
+          pairs: [
+            { premis: 'Topi', respon: 'Dipakai di kepala' },
+            { premis: 'Sepatu', respon: 'Dipakai di kaki' },
+            { premis: 'Sikat gigi', respon: 'Membersihkan gigi' }
+          ],
+          weight: 2,
+          explanation: 'Pasangan benda dan letak/kegunaannya.'
+        },
+        {
+          num: 14, type: 'matching', cog: 'MOTS', cLevel: 'C2',
+          stimulus: 'Pasangkan gambar hewan dengan makanannya!',
+          pairs: [
+            { premis: 'Kelinci', respon: 'Wortel dan rumput' },
+            { premis: 'Kera / Monyet', respon: 'Buah pisang' },
+            { premis: 'Ayam', respon: 'Biji jagung dan beras' }
+          ],
+          weight: 2,
+          explanation: 'Makanan hewan peliharaan.'
+        },
+        {
+          num: 15, type: 'matching', cog: 'MOTS', cLevel: 'C3',
+          stimulus: 'Jodohkan anggota tubuh dengan fungsinya!',
+          pairs: [
+            { premis: 'Telinga', respon: 'Untuk mendengar suara' },
+            { premis: 'Hidung', respon: 'Untuk mencium aroma' },
+            { premis: 'Lidah', respon: 'Untuk mengecap rasa makanan' }
+          ],
+          weight: 2,
+          explanation: 'Fungsi panca indra anak.'
+        },
+
+        // Isian Singkat (5 items)
+        { num: 16, type: 'isian', cog: 'LOTS', cLevel: 'C1', stimulus: '', q: 'Nama hari setelah hari Minggu adalah hari ....', key: 'Senin', weight: 2, explanation: 'Urutan hari: Minggu, Senin.' },
+        { num: 17, type: 'isian', cog: 'LOTS', cLevel: 'C2', stimulus: '', q: 'Warna daun pohon yang segar umumnya berwarna ....', key: 'Hijau', weight: 2, explanation: 'Warna hijau daun.' },
+        { num: 18, type: 'isian', cog: 'MOTS', cLevel: 'C2', stimulus: '', q: 'Kita membuang sampah harus di tempat ....', key: 'Sampah', weight: 2, explanation: 'Menjaga kebersihan dengan buang sampah di tempat sampah.' },
+        { num: 19, type: 'isian', cog: 'MOTS', cLevel: 'C3', stimulus: '', q: 'Jika kita berbuat kesalahan kepada teman, kita harus segera meminta ....', key: 'Maaf', weight: 2, explanation: 'Meminta maaf saat berbuat salah.' },
+        { num: 20, type: 'isian', cog: 'HOTS', cLevel: 'C4', stimulus: '', q: 'Matahari terbit di sebelah timur pada waktu .... hari.', key: 'Pagi', weight: 2, explanation: 'Matahari terbit pagi hari.' }
+      ]
+    }
+  },
+
+  // KELAS 2 (Fase A - Format 3 Pilihan A-B-C, Arial 14pt, 25 Soal)
+  2: {
+    pancasila: {
+      topic: "Aturan di Rumah dan Sekolah, Sila-Sila Pancasila",
+      cp: "Murid mampu mengenal aturan di lingkungan keluarga dan sekolah; menceritakan contoh sikap mematuhi dan yang tidak mematuhi aturan; menghafal sila-sila Pancasila beserta simbolnya.",
+      tp: "1. Mengidentifikasi aturan menjaga kebersihan di rumah dan sekolah.\n2. Menjodohkan simbol sila Pancasila dengan bunyinya.\n3. Menunjukkan sikap rukun dan tolong menolong.",
+      pedagogis: "Bermain peran (role-playing) tata tertib kelas dan simulasi musyawarah sederhana menentukan piket kelas.",
+      kemitraan: "Orang tua mengisi jurnal pembiasaan merapikan tempat tidur sendiri di rumah.",
+      lingkungan: "Pojok budaya saling menghargai dan pohon kebaikan di dinding kelas.",
+      digital: "Video animasi pendek dongeng fabel toleransi dan lagu Garuda Pancasila.",
+      memahami: "Mengamati gambar kegiatan gotong royong dan membedakannya dengan perbuatan egois.",
+      mengaplikasi: "Praktik langsung piket membersihkan kelas bersama teman kelompok.",
+      merefleksi: "Menuliskan rasa senang setelah berhasil bekerja sama tanpa bertengkar."
+    }
+  },
+
+  // KELAS 3 (Fase B - Format 4 Pilihan A-B-C-D, Arial 11pt, 30 Soal)
+  3: {
+    indonesia: {
+      topic: "Teks Prosedur dan Dongeng Cerita Rakyat",
+      cp: "Murid memahami ide pokok teks nonsastra dan unsur cerita dongeng; menulis teks petunjuk langkah-langkah dengan kalimat runtut denotatif.",
+      tp: "1. Mengurutkan langkah-langkah teks prosedur membuat sesuatu.\n2. Menemukan amanat dan tokoh dalam teks dongeng anak.\n3. Menulis teks prosedur sederhana menggunakan kata kerja imperatif.",
+      pedagogis: "Pendekatan pedagogi genre dan demonstrasi praktik membuat karya origami.",
+      kemitraan: "Pameran hasil karya teks prosedur dan membacakan dongeng untuk adik kelas.",
+      lingkungan: "Pojok baca sastra rakyat dan mading petunjuk keselamatan di sekolah.",
+      digital: "Audio rekaman dongeng nusantara dan infografis resep makanan sehat.",
+      memahami: "Menganalisis bagian tujuan, bahan, dan langkah-langkah pada resep minuman.",
+      mengaplikasi: "Menulis resep minuman kesukaan keluarga dengan bahasa sendiri yang jelas.",
+      merefleksi: "Mengevaluasi apakah langkah-langkah yang ditulis mudah dipraktikkan teman sebangku."
+    }
+  },
+
+  // KELAS 5 (Fase C - Format 4 Pilihan A-B-C-D, Arial 11pt, 40 Soal)
+  5: {
+    ipas: {
+      topic: "Ekosistem, Rantai Makanan, & Keseimbangan Alam",
+      cp: "Murid menganalisis hubungan antar makhluk hidup pada suatu ekosistem dalam bentuk jaring-jaring makanan dan mendeskripsikan peran manusia dalam menjaga keseimbangan alam.",
+      tp: "1. Menganalisis alur energi pada rantai makanan darat dan perairan.\n2. Memprediksi dampak kepunahan salah satu komponen konsumen/predator dalam ekosistem.\n3. Merancang aksi nyata pelestarian keanekaragaman hayati lingkungan setempat.",
+      pedagogis: "Inkuiri berbasis masalah (PBL) tentang gangguan hama di sawah dan studi kasus pembalakan hutan.",
+      kemitraan: "Wawancara dengan petani lokal atau komunitas pecinta lingkungan setempat.",
+      lingkungan: "Kebun sekolah, terrarium kelas, dan papan simulasi jaring-jaring makanan.",
+      digital: "Simulasi interaktif populasi predator-mangsa dan pembuatan infografis digital kampanye alam.",
+      memahami: "Mengidentifikasi produsen, konsumen I, II, puncak, dan dekomposer melalui bagan jaring makanan.",
+      mengaplikasi: "Menyusun peta jaring-jaring makanan ekosistem sawah dan mempresentasikan dampaknya jika ular sawah diburu.",
+      merefleksi: "Menulis komitmen pribadi mengurangi penggunaan plastik sekali pakai demi kelestarian ekosistem laut."
+    }
+  },
+
+  // KELAS 6 (Fase C - Format 4 Pilihan A-B-C-D, Arial 11pt, 40 Soal)
+  6: {
+    pancasila: {
+      topic: "Nilai-Nilai Juang BPUPK/PPKI & Pengamalan Sila Pancasila",
+      cp: "Murid menganalisis kronologi perumusan Pancasila oleh para pendiri bangsa; menerapkan nilai-nilai musyawarah, persatuan, dan keadilan dalam kehidupan bermasyarakat.",
+      tp: "1. Menganalisis keteladanan tokoh pendiri bangsa dalam sidang BPUPK dan Panitia Sembilan.\n2. Menguraikan implementasi nilai toleransi dan gotong royong menghadapi era globalisasi.\n3. Menyusun rencana aksi pengamalan nilai Pancasila di lingkungan sekolah dan tempat tinggal.",
+      pedagogis: "Simulasi sidang BPUPK (Role-Play berbasis proyek) dan studi kasus resolusi konflik musyawarah.",
+      kemitraan: "Kunjungan ke museum sejarah virtual dan wawancara dengan tokoh pengurus RT/RW.",
+      lingkungan: "Ruang sidang mini di kelas, mading tema 'Pancasila dalam Tindakan Nyata'.",
+      digital: "Tur virtual Museum Sumpah Pemuda/Gedung Pancasila dan pembuatan video podcast kelompok.",
+      memahami: "Mengkaji isi Piagam Jakarta dan perbedaan pandangan yang diselesaikan secara arif demi persatuan.",
+      mengaplikasi: "Melakukan musyawarah mufakat menyusun petisi anti-perundungan (bullying) di sekolah.",
+      merefleksi: "Menulis jurnal refleksi pengamalan kejujuran dan keadilan dalam pergaulan sehari-hari."
+    }
+  }
+};
+
+// Application State
+let appState = {
+  activeGrade: 4,
+  activeSubject: 'ipas',
+  evalType: 'psas',
+  activeTab: 'tab-construct',
+  examMode: 'sheet', // 'sheet' or 'interactive'
+  customFontOverride: null, // null = auto per grade standard
+  userAnswers: {},
+  counts: {
+    pg: 15,
+    pgk: 5,
+    matching: 5,
+    isian: 7,
+    uraian: 3
+  },
+  weights: {
+    pg: 1,
+    pgk: 2,
+    matching: 2,
+    isian: 2,
+    uraian: 4
+  },
+  selectedDpl: ['dpl1', 'dpl2', 'dpl3', 'dpl4', 'dpl5', 'dpl6', 'dpl8'],
+  timestamp: Date.now()
+};
+
+// =========================================================================
+// 2. LIFECYCLE & INITIALIZATION
+// =========================================================================
+
+window.addEventListener('DOMContentLoaded', async function() {
+  // Check for saved state via NotebookAppApi shim
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+      const saved = await window.notebookAppApi.getAppState();
+      if (saved && saved.activeGrade) {
+        appState = Object.assign(appState, saved);
+      }
+    }
+  } catch (err) {
+    console.warn("Could not load app state from notebookAppApi:", err);
+  }
+
+  // Sync controls with state
+  syncControlsFromState();
+  renderAll();
+
+  // Notify API ready
+  if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+    window.notebookAppApi.notifyAppReady();
+  }
+
+  // Initialize Lucide icons
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+});
+
+// =========================================================================
+// 3. CORE LOGIC: GRADE, SUBJECT & CONSTRUCT VALIDATION ENGINE
+// =========================================================================
+
+function setGrade(gradeNum) {
+  appState.activeGrade = parseInt(gradeNum, 10);
+  
+  // Set default subject if current subject doesn't exist for grade
+  const gradeData = CURRICULUM_DATA[appState.activeGrade];
+  if (gradeData && !gradeData[appState.activeSubject]) {
+    const availableSubjects = Object.keys(gradeData);
+    if (availableSubjects.length > 0) {
+      appState.activeSubject = availableSubjects[0];
+    }
+  }
+
+  // Apply standard preset counts for this grade
+  const std = GRADE_STANDARDS[appState.activeGrade];
+  if (std) {
+    appState.counts.pg = std.pg;
+    appState.counts.pgk = std.pgk;
+    appState.counts.matching = std.matching;
+    appState.counts.isian = std.isian;
+    appState.counts.uraian = std.uraian;
+  }
+
+  syncControlsFromState();
+  renderAll();
+  showToast(`Berhasil beralih ke Kelas ${appState.activeGrade} (Fase ${std.phase})`);
+}
+
+function changeSubject() {
+  const select = document.getElementById('subjectSelect');
+  if (!select) return;
+  appState.activeSubject = select.value;
+  renderAll();
+  showToast(`Mata pelajaran diperbarui: ${select.options[select.selectedIndex].text}`);
+}
+
+function applyStandardPreset() {
+  applyPresetGradeTable();
+  showToast(`Preset standar Kelas ${appState.activeGrade} berhasil diterapkan`);
+}
+
+function applyPresetGradeTable() {
+  const std = GRADE_STANDARDS[appState.activeGrade];
+  if (!std) return;
+
+  appState.counts.pg = std.pg;
+  appState.counts.pgk = std.pgk;
+  appState.counts.matching = std.matching;
+  appState.counts.isian = std.isian;
+  appState.counts.uraian = std.uraian;
+
+  syncControlsFromState();
+  renderAll();
+}
+
+function updateConstructCounts() {
+  const pgIn = document.getElementById('count-pg');
+  const pgkIn = document.getElementById('count-pgk');
+  const matchIn = document.getElementById('count-matching');
+  const isianIn = document.getElementById('count-isian');
+  const uraianIn = document.getElementById('count-uraian');
+
+  if (pgIn) appState.counts.pg = Math.max(0, parseInt(pgIn.value, 10) || 0);
+  if (pgkIn) appState.counts.pgk = Math.max(0, parseInt(pgkIn.value, 10) || 0);
+  if (matchIn) appState.counts.matching = Math.max(0, parseInt(matchIn.value, 10) || 0);
+  if (isianIn) appState.counts.isian = Math.max(0, parseInt(isianIn.value, 10) || 0);
+  if (uraianIn) appState.counts.uraian = Math.max(0, parseInt(uraianIn.value, 10) || 0);
+
+  renderAll();
+}
+
+function calculateScoreWeights() {
+  const wPg = document.getElementById('weight-pg');
+  const wPgk = document.getElementById('weight-pgk');
+  const wMatch = document.getElementById('weight-matching');
+  const wIsian = document.getElementById('weight-isian');
+  const wUraian = document.getElementById('weight-uraian');
+
+  if (wPg) appState.weights.pg = parseInt(wPg.value, 10) || 1;
+  if (wPgk) appState.weights.pgk = parseInt(wPgk.value, 10) || 2;
+  if (wMatch) appState.weights.matching = parseInt(wMatch.value, 10) || 2;
+  if (wIsian) appState.weights.isian = parseInt(wIsian.value, 10) || 2;
+  if (wUraian) appState.weights.uraian = parseInt(wUraian.value, 10) || 4;
+
+  renderAll();
+}
+
+function syncControlsFromState() {
+  // Update Grade chips active class
+  const chips = document.querySelectorAll('.grade-chip');
+  chips.forEach((c, idx) => {
+    if (idx + 1 === appState.activeGrade) {
+      c.classList.add('active');
+    } else {
+      c.classList.remove('active');
+    }
+  });
+
+  // Update Subject select
+  const subjSelect = document.getElementById('subjectSelect');
+  if (subjSelect) {
+    subjSelect.value = appState.activeSubject;
+  }
+
+  // Update input numbers
+  const pgIn = document.getElementById('count-pg');
+  const pgkIn = document.getElementById('count-pgk');
+  const matchIn = document.getElementById('count-matching');
+  const isianIn = document.getElementById('count-isian');
+  const uraianIn = document.getElementById('count-uraian');
+
+  if (pgIn) pgIn.value = appState.counts.pg;
+  if (pgkIn) pgkIn.value = appState.counts.pgk;
+  if (matchIn) matchIn.value = appState.counts.matching;
+  if (isianIn) isianIn.value = appState.counts.isian;
+  if (uraianIn) uraianIn.value = appState.counts.uraian;
+
+  // Weights
+  const wPg = document.getElementById('weight-pg');
+  const wPgk = document.getElementById('weight-pgk');
+  const wMatch = document.getElementById('weight-matching');
+  const wIsian = document.getElementById('weight-isian');
+  const wUraian = document.getElementById('weight-uraian');
+
+  if (wPg) wPg.value = appState.weights.pg;
+  if (wPgk) wPgk.value = appState.weights.pgk;
+  if (wMatch) wMatch.value = appState.weights.matching;
+  if (isianIn) wIsian.value = appState.weights.isian;
+  if (wUraian) wUraian.value = appState.weights.uraian;
+
+  // Grade table active row highlight
+  for (let g = 1; g <= 6; g++) {
+    const row = document.getElementById(`row-preset-${g}`);
+    if (row) {
+      if (g === appState.activeGrade) {
+        row.style.backgroundColor = 'var(--primary-container)';
+      } else {
+        row.style.backgroundColor = '';
+      }
+    }
+  }
+
+  const badgeText = document.getElementById('currentGradeBadgeText');
+  if (badgeText) badgeText.textContent = appState.activeGrade;
+}
+
+// =========================================================================
+// 4. RENDERING & COMPUTATION ENGINE
+// =========================================================================
+
+function renderAll() {
+  const grade = appState.activeGrade;
+  const std = GRADE_STANDARDS[grade];
+  const isFaseA = grade <= 2;
+  const isGrade3 = grade === 3;
+  const total = appState.counts.pg + appState.counts.pgk + appState.counts.matching + appState.counts.isian + appState.counts.uraian;
+
+  // 1. Update UI disabled states according to guidelines
+  const boxPgk = document.getElementById('box-pgk');
+  const boxUraian = document.getElementById('box-uraian');
+  const badgePgOpt = document.getElementById('badge-pg-opt');
+
+  if (isFaseA) {
+    if (boxPgk) boxPgk.classList.add('disabled');
+    if (boxUraian) boxUraian.classList.add('disabled');
+    if (badgePgOpt) badgePgOpt.textContent = '3 Opsi (A-B-C)';
+  } else if (isGrade3) {
+    if (boxPgk) boxPgk.classList.add('disabled');
+    if (boxUraian) boxUraian.classList.remove('disabled');
+    if (badgePgOpt) badgePgOpt.textContent = '4 Opsi (A-D)';
+  } else {
+    if (boxPgk) boxPgk.classList.remove('disabled');
+    if (boxUraian) boxUraian.classList.remove('disabled');
+    if (badgePgOpt) badgePgOpt.textContent = '4 Opsi (A-D)';
+  }
+
+  // 2. Cognitive Distribution Math (30% LOTS, 50% MOTS, 20% HOTS)
+  const lotsCount = Math.round(total * 0.30);
+  const hotsCount = Math.round(total * 0.20);
+  const motsCount = Math.max(0, total - lotsCount - hotsCount);
+
+  const lotsPct = total > 0 ? Math.round((lotsCount / total) * 100) : 0;
+  const motsPct = total > 0 ? Math.round((motsCount / total) * 100) : 0;
+  const hotsPct = total > 0 ? Math.round((hotsCount / total) * 100) : 0;
+
+  // Update DOM Metric elements
+  const totEl = document.getElementById('totalQuestionsCount');
+  if (totEl) totEl.textContent = total;
+
+  const lotsVal = document.getElementById('lotsPercentVal');
+  const lotsSub = document.getElementById('lotsCountVal');
+  if (lotsVal) lotsVal.textContent = `${lotsPct}%`;
+  if (lotsSub) lotsSub.textContent = `${lotsCount} Butir (Mengingat/Memahami)`;
+
+  const motsVal = document.getElementById('motsPercentVal');
+  const motsSub = document.getElementById('motsCountVal');
+  if (motsVal) motsVal.textContent = `${motsPct}%`;
+  if (motsSub) motsSub.textContent = `${motsCount} Butir (Aplikasi/Analisis)`;
+
+  const hotsVal = document.getElementById('hotsPercentVal');
+  const hotsSub = document.getElementById('hotsCountVal');
+  if (hotsVal) hotsVal.textContent = `${hotsPct}%`;
+  if (hotsSub) hotsSub.textContent = `${hotsCount} Butir (Penalaran/Kreasi)`;
+
+  const presetRef = document.getElementById('presetRefLabel');
+  if (presetRef) {
+    presetRef.textContent = `Acuan Standar Kelas ${grade}: ${std.total} Butir (Fase ${std.phase})`;
+  }
+
+  // Visual bar update
+  const barLots = document.getElementById('barSegLots');
+  const barMots = document.getElementById('barSegMots');
+  const barHots = document.getElementById('barSegHots');
+  if (barLots) { barLots.style.width = `${lotsPct}%`; barLots.textContent = `LOTS ${lotsPct}% (${lotsCount})`; }
+  if (barMots) { barMots.style.width = `${motsPct}%`; barMots.textContent = `MOTS ${motsPct}% (${motsCount})`; }
+  if (barHots) { barHots.style.width = `${hotsPct}%`; barHots.textContent = `HOTS ${hotsPct}% (${hotsCount})`; }
+
+  // Cognitive validation badge
+  const cogStatus = document.getElementById('cogValidationStatus');
+  if (cogStatus) {
+    if (Math.abs(lotsPct - 30) <= 2 && Math.abs(motsPct - 50) <= 2 && Math.abs(hotsPct - 20) <= 2) {
+      cogStatus.innerHTML = `<span class="tag tag-lots"><i data-lucide="check"></i> Proporsi Kognitif Ideal 30:50:20 Terpenuhi</span>`;
+    } else {
+      cogStatus.innerHTML = `<span class="tag tag-mots">Proporsi Kognitif Disesuaikan Otomatis</span>`;
+    }
+  }
+
+  // Raw score calculation
+  const rawSum = (appState.counts.pg * appState.weights.pg) +
+                 (appState.counts.pgk * appState.weights.pgk) +
+                 (appState.counts.matching * appState.weights.matching) +
+                 (appState.counts.isian * appState.weights.isian) +
+                 (appState.counts.uraian * appState.weights.uraian);
+
+  const rawSumText = document.getElementById('rawScoreSumText');
+  if (rawSumText) rawSumText.textContent = `${rawSum} poin`;
+
+  // Technical rules badge update
+  const ruleGradeOpt = document.getElementById('ruleGradeOptions');
+  if (ruleGradeOpt) {
+    ruleGradeOpt.innerHTML = isFaseA
+      ? `<i data-lucide="check-circle-2" style="color: var(--tertiary);"></i><span>Jumlah Opsi PG: <strong>3 Pilihan (A-B-C)</strong> untuk Kelas ${grade}</span>`
+      : `<i data-lucide="check-circle-2" style="color: var(--tertiary);"></i><span>Jumlah Opsi PG: <strong>4 Pilihan (A-B-C-D)</strong> untuk Kelas ${grade}</span>`;
+  }
+
+  const activeFont = appState.customFontOverride || (isFaseA ? '14pt' : '11pt');
+  const ruleGradeFont = document.getElementById('ruleGradeFont');
+  if (ruleGradeFont) {
+    ruleGradeFont.innerHTML = `<i data-lucide="check-circle-2" style="color: var(--tertiary);"></i><span>Standar Tipografi: <strong>Arial ${activeFont}</strong> (${isFaseA ? 'Ramah Anak Fase A' : 'Standar Ujian'})</span>`;
+  }
+
+  const fontLabel = document.getElementById('fontDisplayLabel');
+  if (fontLabel) fontLabel.textContent = `Arial ${activeFont}`;
+
+  const rulePhaseAdv = document.getElementById('rulePhaseAdvice');
+  if (rulePhaseAdv) {
+    if (isFaseA) {
+      rulePhaseAdv.innerHTML = `<i data-lucide="alert-triangle" style="color: var(--warning);"></i><span>Pedoman Fase A: Tidak disarankan tes tertulis berat/uraian panjang (Asesmen autentik & gambar)</span>`;
+    } else if (isGrade3) {
+      rulePhaseAdv.innerHTML = `<i data-lucide="check-circle-2" style="color: var(--tertiary);"></i><span>Kompatibilitas Fase B Awal: Uraian diperbolehkan (maks 3-5 butir), PG Kompleks bertahap</span>`;
+    } else {
+      rulePhaseAdv.innerHTML = `<i data-lucide="check-circle-2" style="color: var(--tertiary);"></i><span>Kompatibilitas Fase B/C: PG Kompleks, Menjodohkan, & Uraian diaktifkan penuh</span>`;
+    }
+  }
+
+  // Top validation alert banner
+  const techBanner = document.getElementById('techValidationBanner');
+  if (techBanner) {
+    if (isFaseA) {
+      techBanner.innerHTML = `
+        <div class="alert-banner warning">
+          <i data-lucide="info"></i>
+          <div>
+            <strong>Pemberitahuan Khusus Fase A (Kelas ${grade}):</strong> Opsi PG otomatis diatur <strong>3 Pilihan (A-B-C)</strong>, ukuran font diperbesar menjadi <strong>Arial 14pt</strong>, dan jenis soal PG Kompleks serta Uraian rumit dinonaktifkan sesuai <em>Panduan Pembelajaran dan Asesmen 2025</em> guna mendukung pembinaan keaksaraan awal tanpa tekanan.
+          </div>
+        </div>
+      `;
+    } else {
+      techBanner.innerHTML = `
+        <div class="alert-banner success">
+          <i data-lucide="shield-check"></i>
+          <div>
+            <strong>Mode Standar Ujian SD Terverifikasi:</strong> Naskah Soal Kelas ${grade} (Fase ${std.phase}) menggunakan <strong>4 Opsi Pilihan (A-B-C-D)</strong>, format teks <strong>Arial 11pt</strong>, serta proporsi kognitif <strong>30% LOTS : 50% MOTS : 20% HOTS</strong>.
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  // Update Tab Badge
+  const tabBadge = document.getElementById('tabBadgeConstruct');
+  if (tabBadge) tabBadge.textContent = `${total} Butir`;
+
+  // Render Sub-Sections
+  renderExamQuestions();
+  renderKisiKisiTable();
+  renderKunciAndRubric();
+  renderPlanningModulAjar();
+
+  // Re-run Lucide
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+}
+
+// =========================================================================
+// 5. EXAM PAPER & SIMULATION RENDERING ENGINE
+// =========================================================================
+
+function renderExamQuestions() {
+  const container = document.getElementById('examQuestionsContainer');
+  if (!container) return;
+
+  const grade = appState.activeGrade;
+  const subjKey = appState.activeSubject;
+  const isFaseA = grade <= 2;
+  const activeFont = appState.customFontOverride || (isFaseA ? '14pt' : '11pt');
+
+  // Apply typography classes
+  container.className = isFaseA ? 'exam-paper-fase-a' : 'exam-paper-fase-bc';
+  container.style.fontFamily = 'Arial, sans-serif';
+  container.style.fontSize = activeFont;
+
+  // Retrieve questions for this grade and subject
+  let qList = [];
+  if (CURRICULUM_DATA[grade] && CURRICULUM_DATA[grade][subjKey] && CURRICULUM_DATA[grade][subjKey].questions) {
+    qList = CURRICULUM_DATA[grade][subjKey].questions;
+  } else if (CURRICULUM_DATA[4] && CURRICULUM_DATA[4].ipas && CURRICULUM_DATA[4].ipas.questions) {
+    // Fallback to Grade 4 IPAS questions pool
+    qList = CURRICULUM_DATA[4].ipas.questions;
+  }
+
+  // Update Header Metadata
+  const metaSubj = document.getElementById('examMetaSubject');
+  const metaGrade = document.getElementById('examMetaGrade');
+  const ljsSubj = document.getElementById('ljsSubject');
+  const subjName = getSubjectName(subjKey);
+
+  if (metaSubj) metaSubj.textContent = `${subjName}`;
+  if (metaGrade) metaGrade.textContent = `Kelas ${grade} (Fase ${GRADE_STANDARDS[grade].phase})`;
+  if (ljsSubj) ljsSubj.textContent = `${subjName} - Kelas ${grade}`;
+
+  const ruleNotice = document.getElementById('ruleNoticeText');
+  if (ruleNotice) {
+    ruleNotice.textContent = isFaseA 
+      ? 'Pilihlah salah satu jawaban yang paling tepat (A, B, atau C).'
+      : 'Pilihlah salah satu jawaban yang paling tepat (A, B, C, atau D).';
+  }
+
+  // Group questions by construction type
+  const pgItems = qList.filter(q => q.type === 'pg').slice(0, appState.counts.pg);
+  const pgkItems = isFaseA ? [] : qList.filter(q => q.type === 'pgk').slice(0, appState.counts.pgk);
+  const matchItems = qList.filter(q => q.type === 'matching').slice(0, appState.counts.matching);
+  const isianItems = qList.filter(q => q.type === 'isian').slice(0, appState.counts.isian);
+  const uraianItems = (isFaseA) ? [] : qList.filter(q => q.type === 'uraian').slice(0, appState.counts.uraian);
+
+  let html = '';
+  let questionCounter = 1;
+
+  // -------------------------------------------------------------
+  // BAGIAN I: PILIHAN GANDA (SEDERHANA)
+  // -------------------------------------------------------------
+  if (pgItems.length > 0) {
+    html += `
+      <div style="margin-bottom: var(--space-lg);">
+        <h3 style="border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: var(--space-md); font-size: 1.1em;">
+          BAGIAN I: PILIHAN GANDA (${pgItems.length} Butir Soal)
+        </h3>
+        <p style="font-style: italic; margin-bottom: var(--space-sm); font-size: 0.9em;">
+          Petunjuk: Berilah tanda silang (X) pada huruf ${isFaseA ? 'A, B, atau C' : 'A, B, C, atau D'} di depan jawaban yang paling benar!
+        </p>
+    `;
+
+    pgItems.forEach((item) => {
+      const qNum = questionCounter++;
+      // Limit options to 3 for Fase A
+      const opts = isFaseA ? item.options.slice(0, 3) : item.options;
+
+      html += `
+        <div class="question-block" id="q-block-${qNum}">
+          <div class="question-header">
+            <span class="q-num-badge">No. ${qNum}</span>
+            <div style="display: flex; gap: 4px;">
+              <span class="tag tag-${item.cog.toLowerCase()}">${item.cog} (${item.cLevel})</span>
+              <span class="tag" style="background:#edf5ff; color:#0043ce;">Bobot: ${appState.weights.pg}</span>
+            </div>
+          </div>
+          ${item.stimulus ? `<div class="stimulus-box">${item.stimulus}</div>` : ''}
+          <div style="margin: 6px 0 10px 0; font-weight: 500;">${item.q}</div>
+          <div class="option-list">
+      `;
+
+      opts.forEach((optText, optIdx) => {
+        const optLetter = String.fromCharCode(65 + optIdx);
+        const inputId = `ans_pg_${qNum}_${optLetter}`;
+        html += `
+          <label class="option-item" for="${inputId}">
+            <input type="radio" name="ans_q_${qNum}" id="${inputId}" value="${optLetter}" onchange="recordUserAnswer(${qNum}, '${optLetter}')">
+            <span>${optText}</span>
+          </label>
+        `;
+      });
+
+      html += `
+          </div>
+          <div id="feedback-${qNum}" style="margin-top: 8px; font-size: 0.85em; display: none;"></div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  // -------------------------------------------------------------
+  // BAGIAN II: PILIHAN GANDA KOMPLEKS (MCMA & BENAR/SALAH)
+  // -------------------------------------------------------------
+  if (pgkItems.length > 0) {
+    html += `
+      <div style="margin-bottom: var(--space-lg); page-break-before: auto;">
+        <h3 style="border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: var(--space-md); font-size: 1.1em;">
+          BAGIAN II: PILIHAN GANDA KOMPLEKS (${pgkItems.length} Butir Soal)
+        </h3>
+        <p style="font-style: italic; margin-bottom: var(--space-sm); font-size: 0.9em;">
+          Petunjuk: Berilah tanda centang (✓) pada kotak di depan jawaban yang benar (bisa lebih dari satu), atau pilih Benar/Salah sesuai instruksi!
+        </p>
+    `;
+
+    pgkItems.forEach((item) => {
+      const qNum = questionCounter++;
+      html += `
+        <div class="question-block" id="q-block-${qNum}">
+          <div class="question-header">
+            <span class="q-num-badge">No. ${qNum}</span>
+            <div style="display: flex; gap: 4px;">
+              <span class="tag tag-${item.cog.toLowerCase()}">${item.cog} (${item.cLevel})</span>
+              <span class="tag" style="background:#edf5ff; color:#0043ce;">Bobot: ${appState.weights.pgk}</span>
+            </div>
+          </div>
+          ${item.stimulus ? `<div class="stimulus-box">${item.stimulus}</div>` : ''}
+          <div style="margin: 6px 0 10px 0; font-weight: 500;">${item.q}</div>
+      `;
+
+      if (item.isTableTF && item.statements) {
+        html += `
+          <table class="tf-table">
+            <thead>
+              <tr style="background:#f4f4f4;">
+                <th style="width: 40px;">No</th>
+                <th>Pernyataan</th>
+                <th style="width: 90px;">Benar</th>
+                <th style="width: 90px;">Salah</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        item.statements.forEach((st, sIdx) => {
+          html += `
+            <tr>
+              <td>${sIdx + 1}</td>
+              <td>${st.text}</td>
+              <td><input type="radio" name="tf_${qNum}_${sIdx}" value="Benar" onchange="recordUserAnswer('${qNum}_${sIdx}', 'Benar')"></td>
+              <td><input type="radio" name="tf_${qNum}_${sIdx}" value="Salah" onchange="recordUserAnswer('${qNum}_${sIdx}', 'Salah')"></td>
+            </tr>
+          `;
+        });
+        html += `</tbody></table>`;
+      } else if (item.options) {
+        html += `<div class="option-list">`;
+        item.options.forEach((optText, optIdx) => {
+          const inputId = `ans_pgk_${qNum}_${optIdx}`;
+          html += `
+            <label class="option-item" for="${inputId}">
+              <input type="checkbox" id="${inputId}" value="${optIdx}" onchange="recordUserCheckbox(${qNum}, ${optIdx})">
+              <span>${optText}</span>
+            </label>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      html += `
+          <div id="feedback-${qNum}" style="margin-top: 8px; font-size: 0.85em; display: none;"></div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  // -------------------------------------------------------------
+  // BAGIAN III: MENJODOHKAN (MATCHING ITEMS)
+  // -------------------------------------------------------------
+  if (matchItems.length > 0) {
+    html += `
+      <div style="margin-bottom: var(--space-lg);">
+        <h3 style="border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: var(--space-md); font-size: 1.1em;">
+          BAGIAN III: MENJODOHKAN (${matchItems.length} Butir Soal)
+        </h3>
+        <p style="font-style: italic; margin-bottom: var(--space-sm); font-size: 0.9em;">
+          Petunjuk: Pasangkanlah pernyataan pada Kolom A dengan konsep/fakta yang tepat pada Kolom B!
+        </p>
+    `;
+
+    matchItems.forEach((item) => {
+      const qNum = questionCounter++;
+      html += `
+        <div class="question-block" id="q-block-${qNum}">
+          <div class="question-header">
+            <span class="q-num-badge">No. ${qNum}</span>
+            <div style="display: flex; gap: 4px;">
+              <span class="tag tag-${item.cog.toLowerCase()}">${item.cog} (${item.cLevel})</span>
+              <span class="tag" style="background:#edf5ff; color:#0043ce;">Bobot: ${appState.weights.matching}</span>
+            </div>
+          </div>
+          ${item.stimulus ? `<div class="stimulus-box">${item.stimulus}</div>` : ''}
+          <table class="matching-table">
+            <thead>
+              <tr style="background:#f4f4f4;">
+                <th style="width: 45%; padding: 6px;">Kolom A (Premis)</th>
+                <th style="width: 10%; text-align: center;">Hubungan</th>
+                <th style="width: 45%; padding: 6px;">Kolom B (Pilihan Respon)</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      // Scramble options for Column B demonstration
+      const shuffledResponses = [...item.pairs].map(p => p.respon).sort();
+
+      item.pairs.forEach((pair, pIdx) => {
+        html += `
+          <tr>
+            <td><strong>${pIdx + 1}.</strong> ${pair.premis}</td>
+            <td style="text-align: center;">➔</td>
+            <td>
+              <select class="select-input" style="width: 100%; font-size: 0.85em; padding: 4px;" id="match_sel_${qNum}_${pIdx}" onchange="recordUserMatch(${qNum}, ${pIdx}, this.value)">
+                <option value="">-- Pilih Pasangan Tepat --</option>
+                ${shuffledResponses.map(r => `<option value="${r}">${r}</option>`).join('')}
+              </select>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `
+            </tbody>
+          </table>
+          <div id="feedback-${qNum}" style="margin-top: 8px; font-size: 0.85em; display: none;"></div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  // -------------------------------------------------------------
+  // BAGIAN IV: ISIAN SINGKAT (SHORT ANSWER)
+  // -------------------------------------------------------------
+  if (isianItems.length > 0) {
+    html += `
+      <div style="margin-bottom: var(--space-lg);">
+        <h3 style="border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: var(--space-md); font-size: 1.1em;">
+          BAGIAN IV: ISIAN SINGKAT (${isianItems.length} Butir Soal)
+        </h3>
+        <p style="font-style: italic; margin-bottom: var(--space-sm); font-size: 0.9em;">
+          Petunjuk: Isilah titik-titik di bawah ini dengan jawaban yang singkat, tepat, dan jelas!
+        </p>
+    `;
+
+    isianItems.forEach((item) => {
+      const qNum = questionCounter++;
+      html += `
+        <div class="question-block" id="q-block-${qNum}">
+          <div class="question-header">
+            <span class="q-num-badge">No. ${qNum}</span>
+            <div style="display: flex; gap: 4px;">
+              <span class="tag tag-${item.cog.toLowerCase()}">${item.cog} (${item.cLevel})</span>
+              <span class="tag" style="background:#edf5ff; color:#0043ce;">Bobot: ${appState.weights.isian}</span>
+            </div>
+          </div>
+          ${item.stimulus ? `<div class="stimulus-box">${item.stimulus}</div>` : ''}
+          <div style="margin: 6px 0 8px 0; font-weight: 500;">${item.q}</div>
+          <div style="margin-top: 6px;">
+            <input type="text" class="text-input" style="width: 100%; max-width: 450px;" placeholder="Tuliskan jawaban singkat..." id="ans_isian_${qNum}" oninput="recordUserAnswer(${qNum}, this.value)">
+          </div>
+          <div id="feedback-${qNum}" style="margin-top: 8px; font-size: 0.85em; display: none;"></div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  // -------------------------------------------------------------
+  // BAGIAN V: URAIAN / ESAI (HOTS)
+  // -------------------------------------------------------------
+  if (uraianItems.length > 0) {
+    html += `
+      <div style="margin-bottom: var(--space-lg);">
+        <h3 style="border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: var(--space-md); font-size: 1.1em;">
+          BAGIAN V: URAIAN / ESAI (${uraianItems.length} Butir Soal)
+        </h3>
+        <p style="font-style: italic; margin-bottom: var(--space-sm); font-size: 0.9em;">
+          Petunjuk: Jawablah pertanyaan uraian berikut dengan uraian yang lengkap, logis, dan sistematis!
+        </p>
+    `;
+
+    uraianItems.forEach((item) => {
+      const qNum = questionCounter++;
+      html += `
+        <div class="question-block" id="q-block-${qNum}">
+          <div class="question-header">
+            <span class="q-num-badge">No. ${qNum}</span>
+            <div style="display: flex; gap: 4px;">
+              <span class="tag tag-${item.cog.toLowerCase()}">${item.cog} (${item.cLevel})</span>
+              <span class="tag" style="background:#edf5ff; color:#0043ce;">Bobot Skor: ${appState.weights.uraian}</span>
+            </div>
+          </div>
+          ${item.stimulus ? `<div class="stimulus-box">${item.stimulus}</div>` : ''}
+          <div style="margin: 6px 0 10px 0; font-weight: 500;">${item.q}</div>
+          <div>
+            <textarea class="text-input" style="width: 100%; height: 90px; resize: vertical;" placeholder="Tuliskan lembar uraian dan penalaran Anda..." id="ans_uraian_${qNum}" oninput="recordUserAnswer(${qNum}, this.value)"></textarea>
+          </div>
+          
+          <!-- Rubric Preview for Teacher and Student Insight -->
+          <div style="margin-top: 10px; font-size: 0.775em; background: #fafafa; border: 1px dashed #ccc; padding: 6px 10px; border-radius: var(--rounded-xs);">
+            <strong>Pedoman Penskoran Rubrik Uraian:</strong>
+            <div class="rubric-grid">
+              ${item.rubric ? item.rubric.map(r => `
+                <div class="rubric-cell">
+                  <span class="rubric-score">Skor ${r.score}</span>
+                  <span>${r.criteria}</span>
+                </div>
+              `).join('') : ''}
+            </div>
+          </div>
+          <div id="feedback-${qNum}" style="margin-top: 8px; font-size: 0.85em; display: none;"></div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+
+  // Render LJS Print grid
+  renderLjsGrid(pgItems.length);
+}
+
+function renderLjsGrid(pgCount) {
+  const grid = document.getElementById('ljsPgGrid');
+  if (!grid) return;
+  const isFaseA = appState.activeGrade <= 2;
+  const letters = isFaseA ? ['A', 'B', 'C'] : ['A', 'B', 'C', 'D'];
+
+  let html = '';
+  for (let i = 1; i <= pgCount; i++) {
+    html += `
+      <div style="border: 1px solid #ccc; padding: 4px; text-align: center; font-size: 0.75rem;">
+        <strong>${i}.</strong> ${letters.map(l => `<span style="border: 1px solid #777; border-radius: 50%; display: inline-block; width: 18px; height: 18px; line-height: 16px; margin: 0 1px;">${l}</span>`).join('')}
+      </div>
+    `;
+  }
+  grid.innerHTML = html;
+}
+
+// =========================================================================
+// 6. MATRIKS KISI-KISI & KUNCI JAWABAN ENGINE
+// =========================================================================
+
+function renderKisiKisiTable() {
+  const tbody = document.getElementById('kisiKisiTableBody');
+  if (!tbody) return;
+
+  const grade = appState.activeGrade;
+  const subjKey = appState.activeSubject;
+  const isFaseA = grade <= 2;
+  const subjData = CURRICULUM_DATA[grade] && CURRICULUM_DATA[grade][subjKey] 
+    ? CURRICULUM_DATA[grade][subjKey] 
+    : CURRICULUM_DATA[4].ipas;
+
+  let qList = subjData.questions || CURRICULUM_DATA[4].ipas.questions;
+
+  const pgItems = qList.filter(q => q.type === 'pg').slice(0, appState.counts.pg);
+  const pgkItems = isFaseA ? [] : qList.filter(q => q.type === 'pgk').slice(0, appState.counts.pgk);
+  const matchItems = qList.filter(q => q.type === 'matching').slice(0, appState.counts.matching);
+  const isianItems = qList.filter(q => q.type === 'isian').slice(0, appState.counts.isian);
+  const uraianItems = isFaseA ? [] : qList.filter(q => q.type === 'uraian').slice(0, appState.counts.uraian);
+
+  const combined = [
+    ...pgItems.map(q => ({ ...q, constructName: 'Pilihan Ganda', weight: appState.weights.pg })),
+    ...pgkItems.map(q => ({ ...q, constructName: 'PG Kompleks', weight: appState.weights.pgk })),
+    ...matchItems.map(q => ({ ...q, constructName: 'Menjodohkan', weight: appState.weights.matching })),
+    ...isianItems.map(q => ({ ...q, constructName: 'Isian Singkat', weight: appState.weights.isian })),
+    ...uraianItems.map(q => ({ ...q, constructName: 'Uraian', weight: appState.weights.uraian }))
+  ];
+
+  let html = '';
+  combined.forEach((item, idx) => {
+    const qNum = idx + 1;
+    html += `
+      <tr>
+        <td><strong>${qNum}</strong></td>
+        <td style="max-width: 200px; font-size: 0.775rem;">${subjData.cp ? subjData.cp.substring(0, 85) + '...' : 'Kompetensi Fase ' + GRADE_STANDARDS[grade].phase}</td>
+        <td style="max-width: 180px; font-size: 0.775rem;">Menganalisis keterkaitan konsep & memecahkan masalah terkait ${subjData.topic}</td>
+        <td><strong>${subjData.topic}</strong></td>
+        <td style="font-size: 0.8rem;">Disajikan stimulus, murid dapat menentukan ${item.cog} terkait konsep materi</td>
+        <td><span class="tag tag-${item.cog.toLowerCase()}">${item.cog} (${item.cLevel})</span></td>
+        <td><strong>${item.constructName}</strong></td>
+        <td>${item.weight}</td>
+        <td><strong>${qNum}</strong></td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+}
+
+function renderKunciAndRubric() {
+  const container = document.getElementById('kunciJawabanContainer');
+  if (!container) return;
+
+  const grade = appState.activeGrade;
+  const subjKey = appState.activeSubject;
+  const isFaseA = grade <= 2;
+  const subjData = CURRICULUM_DATA[grade] && CURRICULUM_DATA[grade][subjKey] 
+    ? CURRICULUM_DATA[grade][subjKey] 
+    : CURRICULUM_DATA[4].ipas;
+
+  let qList = subjData.questions || CURRICULUM_DATA[4].ipas.questions;
+
+  const pgItems = qList.filter(q => q.type === 'pg').slice(0, appState.counts.pg);
+  const pgkItems = isFaseA ? [] : qList.filter(q => q.type === 'pgk').slice(0, appState.counts.pgk);
+  const matchItems = qList.filter(q => q.type === 'matching').slice(0, appState.counts.matching);
+  const isianItems = qList.filter(q => q.type === 'isian').slice(0, appState.counts.isian);
+  const uraianItems = isFaseA ? [] : qList.filter(q => q.type === 'uraian').slice(0, appState.counts.uraian);
+
+  let qIdx = 1;
+  let html = `
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg);">
+  `;
+
+  // Kunci PG Grid
+  if (pgItems.length > 0) {
+    html += `
+      <div style="border: 1px solid var(--outline-variant); padding: var(--space-md); border-radius: var(--rounded);">
+        <h4 style="margin-bottom: 8px; color: var(--primary);">KUNCI BAGIAN I: PILIHAN GANDA (Bobot: ${appState.weights.pg})</h4>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; font-size: 0.825rem; font-family: var(--font-label);">
+    `;
+    pgItems.forEach(item => {
+      html += `<div><strong>${qIdx++}.</strong> <span style="background:var(--positive-bg); color:var(--positive); padding: 1px 6px; font-weight:700;">${item.key}</span></div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  // Kunci PG Kompleks
+  if (pgkItems.length > 0) {
+    html += `
+      <div style="border: 1px solid var(--outline-variant); padding: var(--space-md); border-radius: var(--rounded);">
+        <h4 style="margin-bottom: 8px; color: var(--primary);">KUNCI BAGIAN II: PG KOMPLEKS (Bobot: ${appState.weights.pgk})</h4>
+        <div style="font-size: 0.8rem; line-height: 1.5;">
+    `;
+    pgkItems.forEach(item => {
+      const curNum = qIdx++;
+      if (item.isTableTF && item.statements) {
+        const tfStr = item.statements.map((s, idx) => `(${idx+1}) ${s.ans}`).join('; ');
+        html += `<div style="margin-bottom: 4px;"><strong>${curNum}.</strong> ${tfStr}</div>`;
+      } else {
+        html += `<div style="margin-bottom: 4px;"><strong>${curNum}.</strong> Centang Opsi ke: ${(item.correctIndexes || []).map(i => i+1).join(', ')}</div>`;
+      }
+    });
+    html += `</div></div>`;
+  }
+
+  // Kunci Menjodohkan
+  if (matchItems.length > 0) {
+    html += `
+      <div style="border: 1px solid var(--outline-variant); padding: var(--space-md); border-radius: var(--rounded);">
+        <h4 style="margin-bottom: 8px; color: var(--primary);">KUNCI BAGIAN III: MENJODOHKAN (Bobot: ${appState.weights.matching})</h4>
+        <div style="font-size: 0.8rem; line-height: 1.5;">
+    `;
+    matchItems.forEach(item => {
+      const curNum = qIdx++;
+      const pairStr = (item.pairs || []).map(p => `[${p.premis} ➔ ${p.respon}]`).join('; ');
+      html += `<div style="margin-bottom: 6px;"><strong>${curNum}.</strong> ${pairStr}</div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  // Kunci Isian
+  if (isianItems.length > 0) {
+    html += `
+      <div style="border: 1px solid var(--outline-variant); padding: var(--space-md); border-radius: var(--rounded);">
+        <h4 style="margin-bottom: 8px; color: var(--primary);">KUNCI BAGIAN IV: ISIAN SINGKAT (Bobot: ${appState.weights.isian})</h4>
+        <div style="font-size: 0.8rem; line-height: 1.5;">
+    `;
+    isianItems.forEach(item => {
+      const curNum = qIdx++;
+      html += `<div style="margin-bottom: 4px;"><strong>${curNum}.</strong> Jawaban: <strong>${item.key}</strong></div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  html += `</div>`;
+
+  // Rubrik Uraian Lengkap
+  if (uraianItems.length > 0) {
+    html += `
+      <div style="border: 1px solid var(--outline-variant); padding: var(--space-md); border-radius: var(--rounded); margin-top: var(--space-md);">
+        <h4 style="margin-bottom: 8px; color: var(--primary);">PEDOMAN PENSKORAN & RUBRIK BAGIAN V: URAIAN / ESAI</h4>
+    `;
+    uraianItems.forEach(item => {
+      const curNum = qIdx++;
+      html += `
+        <div style="margin-bottom: var(--space-md); border-bottom: 1px dashed #ccc; padding-bottom: 8px;">
+          <div style="font-weight: 700; margin-bottom: 2px;">Soal No. ${curNum} (Bobot Maksimal: ${appState.weights.uraian})</div>
+          <div style="font-size: 0.825rem; font-style: italic; color: #555; margin-bottom: 4px;">${item.q}</div>
+          <div style="font-size: 0.8rem; margin-bottom: 6px;"><strong>Model Jawaban Lengkap:</strong> ${item.keyModel || '-'}</div>
+          <div class="rubric-grid">
+            ${item.rubric ? item.rubric.map(r => `
+              <div class="rubric-cell">
+                <span class="rubric-score">Skor ${r.score}</span>
+                <span>${r.criteria}</span>
+              </div>
+            `).join('') : ''}
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// =========================================================================
+// 7. PERENCANAAN MODUL AJAR (DEEP LEARNING 3 TAHAP + 8 DIMENSI)
+// =========================================================================
+
+function renderPlanningModulAjar() {
+  const grade = appState.activeGrade;
+  const subjKey = appState.activeSubject;
+  const std = GRADE_STANDARDS[grade];
+  const subjData = CURRICULUM_DATA[grade] && CURRICULUM_DATA[grade][subjKey] 
+    ? CURRICULUM_DATA[grade][subjKey] 
+    : CURRICULUM_DATA[4].ipas;
+
+  // Update dynamic texts
+  const pilarPed = document.getElementById('pilarPedagogisText');
+  if (pilarPed) pilarPed.textContent = subjData.pedagogis || 'Inkuiri terbimbing dan eksplorasi kontekstual.';
+
+  const pilarKem = document.getElementById('pilarKemitraanText');
+  if (pilarKem) pilarKem.textContent = subjData.kemitraan || 'Kolaborasi kerja kelompok dan umpan balik teman sebaya.';
+
+  const pilarLing = document.getElementById('pilarLingkunganText');
+  if (pilarLing) pilarLing.textContent = subjData.lingkungan || 'Ruang kelas kondusif, aman, dan saling memuliakan ide anak.';
+
+  const pilarDig = document.getElementById('pilarDigitalText');
+  if (pilarDig) pilarDig.textContent = subjData.digital || 'Simulasi media interaktif dan asesmen kuis digital.';
+
+  const dlMmh = document.getElementById('dlMemahamiContent');
+  if (dlMmh) dlMmh.textContent = subjData.memahami || 'Murid aktif mengonstruksi pemahaman esensial.';
+
+  const dlMap = document.getElementById('dlMengaplikasiContent');
+  if (dlMap) dlMap.textContent = subjData.mengaplikasi || 'Murid memecahkan masalah kontekstual kehidupan nyata.';
+
+  const dlMrf = document.getElementById('dlMerefleksiContent');
+  if (dlMrf) dlMrf.textContent = subjData.merefleksi || 'Murid mengevaluasi pemahaman diri secara metakognitif.';
+
+  // Build full Modul Ajar Text
+  const textarea = document.getElementById('modulAjarFullText');
+  if (!textarea) return;
+
+  const subjTitle = getSubjectName(subjKey);
+  const dplSelectedNames = getDplNames();
+
+  const fullText = `====================================================================
+MODUL AJAR DEEP LEARNING (PEMBELAJARAN MENDALAM) SD
+KURIKULUM MERDEKA - EDISI REVISI 2025
+====================================================================
+I. INFORMASI UMUM
+- Nama Sekolah     : SD Negeri Contoh Merdeka
+- Jenjang / Fase   : SD / Fase ${std.phase} (Kelas ${grade})
+- Mata Pelajaran   : ${subjTitle}
+- Topik / Materi   : ${subjData.topic}
+- Alokasi Waktu    : 3 Pertemuan (6 x 35 Menit)
+
+II. KOMPETENSI INTI
+A. Capaian Pembelajaran (CP):
+${subjData.cp || '-'}
+
+B. Tujuan Pembelajaran (TP):
+${subjData.tp || '-'}
+
+C. 8 Dimensi Profil Lulusan yang Dikuatkan:
+${dplSelectedNames.join('\n')}
+
+D. 4 Pilar Desain Pembelajaran:
+1. Praktik Pedagogis   : ${subjData.pedagogis}
+2. Kemitraan Belajar  : ${subjData.kemitraan}
+3. Lingkungan Belajar : ${subjData.lingkungan}
+4. Pemanfaatan Digital: ${subjData.digital}
+
+III. SIKLUS PENGALAMAN BELAJAR MENDALAM (DEEP LEARNING)
+1. TAHAP MEMAHAMI (Understanding - Berkesadaran & Bermakna):
+${subjData.memahami}
+
+2. TAHAP MENGAPLIKASI (Applying - Kontekstual Dunia Nyata):
+${subjData.mengaplikasi}
+
+3. TAHAP MEREFLEKSI (Reflecting - Metakognisi & Tindak Lanjut):
+${subjData.merefleksi}
+
+IV. RENCANA ASESMEN LENGKAP
+1. Asesmen Formatif Awal   : Pemetaan Kesiapan Belajar (Mulai Berkembang, Berkembang Sesuai Harapan, Sangat Berkembang).
+2. Asesmen Formatif Proses : Observasi keaktifan diskusi, lembar kerja kelompok, jurnal refleksi 3-2-1.
+3. Asesmen Sumatif         : Evaluasi PSAS Mandiri ${appState.counts.pg + appState.counts.pgk + appState.counts.matching + appState.counts.isian + appState.counts.uraian} butir (Proporsi: 30% LOTS, 50% MOTS, 20% HOTS).
+====================================================================`;
+
+  textarea.value = fullText;
+}
+
+// =========================================================================
+// 8. INTERACTIVE STUDENT EXAM SIMULATOR & SCORING
+// =========================================================================
+
+function setExamMode(mode) {
+  appState.examMode = mode;
+  const bar = document.getElementById('interactiveSubmitBar');
+  if (bar) {
+    bar.style.display = (mode === 'interactive') ? 'block' : 'none';
+  }
+  showToast(mode === 'interactive' ? 'Mode Simulasi Interaktif Murid Aktif' : 'Mode Format Naskah Cetak Aktif');
+}
+
+function toggleExamFontSize() {
+  if (!appState.customFontOverride) {
+    appState.customFontOverride = (appState.activeGrade <= 2) ? '11pt' : '14pt';
+  } else {
+    appState.customFontOverride = (appState.customFontOverride === '14pt') ? '11pt' : '14pt';
+  }
+  renderAll();
+  showToast(`Ukuran teks diubah ke Arial ${appState.customFontOverride}`);
+}
+
+function recordUserAnswer(qNum, val) {
+  appState.userAnswers[qNum] = val;
+}
+
+function recordUserCheckbox(qNum, optIdx) {
+  if (!appState.userAnswers[qNum]) {
+    appState.userAnswers[qNum] = [];
+  }
+  const arr = appState.userAnswers[qNum];
+  const idx = arr.indexOf(optIdx);
+  if (idx > -1) {
+    arr.splice(idx, 1);
+  } else {
+    arr.push(optIdx);
+  }
+}
+
+function recordUserMatch(qNum, pIdx, val) {
+  if (!appState.userAnswers[qNum]) {
+    appState.userAnswers[qNum] = {};
+  }
+  appState.userAnswers[qNum][pIdx] = val;
+}
+
+function evaluateInteractiveExam() {
+  const grade = appState.activeGrade;
+  const subjKey = appState.activeSubject;
+  const isFaseA = grade <= 2;
+  const subjData = CURRICULUM_DATA[grade] && CURRICULUM_DATA[grade][subjKey] 
+    ? CURRICULUM_DATA[grade][subjKey] 
+    : CURRICULUM_DATA[4].ipas;
+
+  let qList = subjData.questions || CURRICULUM_DATA[4].ipas.questions;
+
+  const pgItems = qList.filter(q => q.type === 'pg').slice(0, appState.counts.pg);
+  const pgkItems = isFaseA ? [] : qList.filter(q => q.type === 'pgk').slice(0, appState.counts.pgk);
+  const matchItems = qList.filter(q => q.type === 'matching').slice(0, appState.counts.matching);
+  const isianItems = qList.filter(q => q.type === 'isian').slice(0, appState.counts.isian);
+  const uraianItems = isFaseA ? [] : qList.filter(q => q.type === 'uraian').slice(0, appState.counts.uraian);
+
+  let earnedScore = 0;
+  let maxScore = 0;
+  let correctCount = 0;
+  let questionCounter = 1;
+
+  // 1. Evaluate PG
+  pgItems.forEach(item => {
+    const qNum = questionCounter++;
+    maxScore += appState.weights.pg;
+    const userAns = appState.userAnswers[qNum];
+    const fbBox = document.getElementById(`feedback-${qNum}`);
+
+    if (userAns === item.key) {
+      earnedScore += appState.weights.pg;
+      correctCount++;
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--tertiary); font-weight:600;"><i data-lucide="check"></i> Benar!</span> (${item.explanation || ''})`;
+      }
+    } else {
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--error); font-weight:600;"><i data-lucide="x"></i> Kurang Tepat.</span> Jawaban benar adalah <strong>${item.key}</strong>. ${item.explanation || ''}`;
+      }
+    }
+  });
+
+  // 2. Evaluate PG Kompleks
+  pgkItems.forEach(item => {
+    const qNum = questionCounter++;
+    maxScore += appState.weights.pgk;
+    const fbBox = document.getElementById(`feedback-${qNum}`);
+
+    if (item.isTableTF && item.statements) {
+      let allCorrect = true;
+      item.statements.forEach((st, sIdx) => {
+        const uVal = appState.userAnswers[`${qNum}_${sIdx}`];
+        if (uVal !== st.ans) allCorrect = false;
+      });
+      if (allCorrect) {
+        earnedScore += appState.weights.pgk;
+        correctCount++;
+        if (fbBox) {
+          fbBox.style.display = 'block';
+          fbBox.innerHTML = `<span style="color:var(--tertiary); font-weight:600;"><i data-lucide="check"></i> Seluruh Tabel Benar!</span>`;
+        }
+      } else {
+        if (fbBox) {
+          fbBox.style.display = 'block';
+          fbBox.innerHTML = `<span style="color:var(--warning); font-weight:600;">Sebagian tabel belum tepat.</span> Kunci: ${item.statements.map(s => s.ans).join(', ')}`;
+        }
+      }
+    } else {
+      const userArr = appState.userAnswers[qNum] || [];
+      const correctArr = item.correctIndexes || [];
+      const isMatch = correctArr.length === userArr.length && correctArr.every(v => userArr.includes(v));
+      if (isMatch) {
+        earnedScore += appState.weights.pgk;
+        correctCount++;
+        if (fbBox) {
+          fbBox.style.display = 'block';
+          fbBox.innerHTML = `<span style="color:var(--tertiary); font-weight:600;"><i data-lucide="check"></i> Benar!</span> Pilihan centang tepat.`;
+        }
+      } else {
+        if (fbBox) {
+          fbBox.style.display = 'block';
+          fbBox.innerHTML = `<span style="color:var(--error); font-weight:600;">Belum tepat.</span> Pilihan yang benar adalah opsi ke-${correctArr.map(i => i+1).join(' dan ')}.`;
+        }
+      }
+    }
+  });
+
+  // 3. Evaluate Matching
+  matchItems.forEach(item => {
+    const qNum = questionCounter++;
+    maxScore += appState.weights.matching;
+    const fbBox = document.getElementById(`feedback-${qNum}`);
+    const userMap = appState.userAnswers[qNum] || {};
+    let allPairCorrect = true;
+
+    item.pairs.forEach((p, pIdx) => {
+      if (userMap[pIdx] !== p.respon) allPairCorrect = false;
+    });
+
+    if (allPairCorrect) {
+      earnedScore += appState.weights.matching;
+      correctCount++;
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--tertiary); font-weight:600;"><i data-lucide="check"></i> Seluruh Pasangan Tepat!</span>`;
+      }
+    } else {
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--warning); font-weight:600;">Beberapa pasangan belum tepat.</span>`;
+      }
+    }
+  });
+
+  // 4. Evaluate Isian
+  isianItems.forEach(item => {
+    const qNum = questionCounter++;
+    maxScore += appState.weights.isian;
+    const fbBox = document.getElementById(`feedback-${qNum}`);
+    const userVal = (appState.userAnswers[qNum] || '').trim().toLowerCase();
+    const keyVal = (item.key || '').toLowerCase();
+
+    if (userVal.length > 0 && keyVal.includes(userVal)) {
+      earnedScore += appState.weights.isian;
+      correctCount++;
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--tertiary); font-weight:600;"><i data-lucide="check"></i> Tepat!</span> Kunci: ${item.key}`;
+      }
+    } else {
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--error); font-weight:600;">Kurang Tepat.</span> Kunci jawaban: <strong>${item.key}</strong>`;
+      }
+    }
+  });
+
+  // 5. Uraian self-scoring model preview
+  uraianItems.forEach(item => {
+    const qNum = questionCounter++;
+    maxScore += appState.weights.uraian;
+    const userVal = (appState.userAnswers[qNum] || '').trim();
+    const fbBox = document.getElementById(`feedback-${qNum}`);
+
+    if (userVal.length > 20) {
+      // Award partial realistic credit for thoughtful response
+      earnedScore += Math.round(appState.weights.uraian * 0.75);
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--tertiary); font-weight:600;">Uraian Terisi Baik:</span> Evaluasi skor guru berdasarkan rubrik (Estimasi 3/4 skor).`;
+      }
+    } else {
+      if (fbBox) {
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `<span style="color:var(--warning); font-weight:600;">Uraian masih singkat.</span> Lengkapi argumen Anda sesuai rubrik.`;
+      }
+    }
+  });
+
+  // Compute final 0-100 scale
+  const finalGrade100 = maxScore > 0 ? Math.round((earnedScore / maxScore) * 100) : 0;
+
+  // Display result box
+  const resBox = document.getElementById('interactiveResultBox');
+  if (resBox) {
+    resBox.style.display = 'block';
+    resBox.innerHTML = `
+      <div style="background:#ffffff; border: 2px solid var(--primary); padding: var(--space-md); border-radius: var(--rounded);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm);">
+          <div>
+            <h3 style="color: var(--primary); font-size: 1.2rem;">Hasil Penilaian Simulasi Ujian Mandiri</h3>
+            <p style="font-size: 0.85rem; color: var(--on-surface-variant);">
+              Skor Mentah: <strong>${earnedScore}</strong> dari maksimal <strong>${maxScore} poin</strong>
+            </p>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-label); color: ${finalGrade100 >= 75 ? 'var(--tertiary)' : 'var(--warning)'};">
+            ${finalGrade100} / 100
+          </div>
+        </div>
+        <div style="margin-top: var(--space-sm); font-size: 0.85rem; border-top: 1px dashed #ccc; padding-top: var(--space-xs);">
+          <strong>Rekomendasi Tindak Lanjut Diferensiasi:</strong>
+          ${finalGrade100 >= 85 
+            ? 'Murid berada pada kategori <strong>Sangat Berkembang (SB)</strong>. Sangat layak diberikan soal pengayaan bertingkat dan materi tantangan HOTS.'
+            : finalGrade100 >= 70
+              ? 'Murid berada pada kategori <strong>Berkembang Sesuai Harapan (BSH)</strong>. Kuasai kembali butir soal uraian dan ketelitian membaca stimulus.'
+              : 'Murid berada pada kategori <strong>Mulai Berkembang (MB)</strong>. Membutuhkan pendampingan scaffolding dan latihan soal kontekstual bertahap.'}
+        </div>
+      </div>
+    `;
+  }
+
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+
+  showToast(`Simulasi selesai! Nilai Akhir: ${finalGrade100}`);
+}
+
+function resetInteractiveAnswers() {
+  appState.userAnswers = {};
+  renderExamQuestions();
+  const resBox = document.getElementById('interactiveResultBox');
+  if (resBox) resBox.style.display = 'none';
+  showToast('Jawaban siswa berhasil direset');
+}
+
+// =========================================================================
+// 9. UI HELPERS, PERSISTENCE, & EXPORTS
+// =========================================================================
+
+function switchTab(tabId) {
+  appState.activeTab = tabId;
+  const panels = document.querySelectorAll('.tab-panel');
+  panels.forEach(p => p.classList.remove('active'));
+
+  const activePanel = document.getElementById(tabId);
+  if (activePanel) activePanel.classList.add('active');
+
+  const tabBtns = document.querySelectorAll('.tab-item');
+  tabBtns.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Re-run icons
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+}
+
+function toggleDpl(labelEl, dplId) {
+  const cb = document.getElementById(dplId);
+  if (!cb) return;
+  cb.checked = !cb.checked;
+  if (cb.checked) {
+    labelEl.classList.add('selected');
+    if (!appState.selectedDpl.includes(dplId)) appState.selectedDpl.push(dplId);
+  } else {
+    labelEl.classList.remove('selected');
+    appState.selectedDpl = appState.selectedDpl.filter(id => id !== dplId);
+  }
+  renderPlanningModulAjar();
+}
+
+function getDplNames() {
+  const mapping = {
+    dpl1: '1. Keimanan dan Ketakwaan terhadap Tuhan YME',
+    dpl2: '2. Kewargaan',
+    dpl3: '3. Penalaran Kritis',
+    dpl4: '4. Kreativitas',
+    dpl5: '5. Kolaborasi',
+    dpl6: '6. Kemandirian',
+    dpl7: '7. Kesehatan',
+    dpl8: '8. Komunikasi'
+  };
+  return appState.selectedDpl.map(id => mapping[id] || id);
+}
+
+function getSubjectName(subjKey) {
+  const map = {
+    ipas: 'IPAS (Ilmu Pengetahuan Alam & Sosial)',
+    indonesia: 'Bahasa Indonesia',
+    matematika: 'Matematika',
+    pancasila: 'Pendidikan Pancasila',
+    inggris: 'Bahasa Inggris',
+    pjok: 'PJOK'
+  };
+  return map[subjKey] || subjKey.toUpperCase();
+}
+
+async function saveStateToStorage() {
+  try {
+    appState.timestamp = Date.now();
+    if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+      await window.notebookAppApi.setAppState(appState);
+      showToast('Proyek berhasil disimpan ke sesi notebook');
+    } else {
+      showToast('Perubahan tersimpan dalam memori kerja');
+    }
+  } catch (err) {
+    console.error('Error saving state:', err);
+    showToast('Tersimpan secara lokal di peramban');
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('appToast');
+  const txt = document.getElementById('toastMsg');
+  if (!toast || !txt) return;
+  txt.textContent = msg;
+  toast.style.display = 'flex';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 3200);
+}
+
+function printActiveDocument() {
+  window.print();
+}
+
+function printExamOnly() {
+  switchTab('tab-exam');
+  window.print();
+}
+
+function printKisiKisiOnly() {
+  switchTab('tab-matrix');
+  window.print();
+}
+
+function printKunciOnly() {
+  switchTab('tab-matrix');
+  const kunciSec = document.getElementById('kunciJawabanContainer');
+  if (kunciSec) kunciSec.scrollIntoView({ behavior: 'smooth' });
+  window.print();
+}
+
+function printAnswerSheet() {
+  const sheet = document.getElementById('printAnswerSheetSection');
+  if (!sheet) return;
+  window.print();
+}
+
+function copyModulAjarText() {
+  const textarea = document.getElementById('modulAjarFullText');
+  if (!textarea) return;
+  textarea.select();
+  try {
+    navigator.clipboard.writeText(textarea.value);
+    showToast('Seluruh teks Modul Ajar berhasil disalin ke papan klip');
+  } catch (e) {
+    document.execCommand('copy');
+    showToast('Teks Modul Ajar disalin');
+  }
+}
+
+function exportKisiKisiCSV() {
+  const grade = appState.activeGrade;
+  const subjKey = appState.activeSubject;
+  const filename = `Kisi_Kisi_PSAS_Kelas_${grade}_${subjKey}.csv`;
+
+  let csv = 'No,Capaian Pembelajaran,Materi Esensial,Level Kognitif,Bentuk Soal,Bobot,No Soal\n';
+  const rows = document.querySelectorAll('#kisiKisiTableBody tr');
+  rows.forEach(r => {
+    const cols = r.querySelectorAll('td');
+    if (cols.length >= 9) {
+      const line = `"${cols[0].innerText}","${cols[1].innerText.replace(/"/g, '""')}","${cols[3].innerText}","${cols[5].innerText}","${cols[6].innerText}","${cols[7].innerText}","${cols[8].innerText}"`;
+      csv += line + '\n';
+    }
+  });
+
+  if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+    window.notebookAppApi.triggerFileDownload({
+      content: csv,
+      contentType: 'text/csv;charset=utf-8;',
+      filename: filename
+    });
+  } else {
+    // Fallback standard blob download
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
+  showToast('File CSV Kisi-kisi berhasil diekspor');
+}
+</script>
+
+</body>
+</html>
